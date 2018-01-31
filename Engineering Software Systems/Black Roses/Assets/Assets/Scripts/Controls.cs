@@ -13,6 +13,7 @@ public class Controls : MonoBehaviour {
     public int speed;
     public int jumpSpeed;
     private Rigidbody2D rb2D;
+    public Vector2 velocity;
 
     // Use this for initialization
     void Start () {
@@ -26,33 +27,36 @@ public class Controls : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        velocity = rb2D.velocity;
         if (Input.GetKey("escape"))
         {
             SceneManager.LoadScene("Main_Menu");
         }
 
-            if (Input.GetKey("d"))
+        
+
+        if(Mathf.Abs(Input.GetAxis("Horizontal")) > 0)
         {
-            m_running = true;
-            transform.position += new Vector3(speed * dt, 0, 0);
-            StopAllCoroutines();
-            StartCoroutine(FlipRight());
+                rb2D.velocity = new Vector2(Input.GetAxis("Horizontal")*speed, rb2D.velocity.y);
+                m_running = true;
+            if(rb2D.velocity.x < 0)
+            {
+                    StopAllCoroutines();
+                    StartCoroutine(FlipLeft());
+            }
+            if (rb2D.velocity.x > 0)
+            {
+                StopAllCoroutines();
+                StartCoroutine(FlipRight());
+            }
         }
-        if (Input.GetKeyUp("d"))
+        else
         {
             m_running = false;
+            rb2D.velocity = new Vector2(0, rb2D.velocity.y);
         }
-        if (Input.GetKey("a"))
-        {
-            m_running = true;
-            transform.position -= new Vector3(speed * dt, 0, 0);
-            StopAllCoroutines();
-            StartCoroutine(FlipLeft());
-        }
-        if (Input.GetKeyUp("a"))
-        {
-            m_running = false;
-        }
+      
+             
 
         if (m_running == false)
         {
@@ -67,7 +71,7 @@ public class Controls : MonoBehaviour {
         if (Input.GetKeyDown("space") && m_jump == false)
         {
             m_jump = true;
-            rb2D.velocity = new Vector2 (0,jumpSpeed);
+            rb2D.velocity = new Vector2(rb2D.velocity.x,jumpSpeed);
         }
 
         if (m_jump == false)
@@ -105,8 +109,16 @@ public class Controls : MonoBehaviour {
     {
         if(collision.transform.tag == "Ground")
         {
-            rb2D.velocity = new Vector2(0, 0);
             m_jump = false;
         }
+        if (collision.transform.name == "KillZone")
+        {
+            ResetPosition();
+        }
+    }
+
+    private void ResetPosition()
+    {
+        transform.position = new Vector3(-4.34f,-1.49f,0.0f);
     }
 }

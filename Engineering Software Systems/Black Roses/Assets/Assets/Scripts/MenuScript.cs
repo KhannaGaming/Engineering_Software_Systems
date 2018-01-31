@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class MenuScript : MonoBehaviour {
 
     private bool movingToSettings = false;
+    private bool movingToMenu = false;
     public int cameraSpeed;
 	// Use this for initialization
 	void Start () {
@@ -30,6 +31,16 @@ public class MenuScript : MonoBehaviour {
             movingToSettings = false;
         }
 
+        if (movingToMenu == true && GameObject.Find("Moveable").GetComponent<RectTransform>().localPosition.x < 0)
+        {
+            GameObject.Find("Moveable").GetComponent<Transform>().localPosition += new Vector3(cameraSpeed, 0, 0);
+
+        }
+        else
+        {
+            movingToMenu = false;
+        }
+
         PlayerPrefs.SetFloat("Volume", GameObject.Find("VolumeSlider").GetComponent<Slider>().value);
         GameObject.Find("Music").GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("Volume", 1.0f);
     }
@@ -47,5 +58,10 @@ public class MenuScript : MonoBehaviour {
     public void pressedQuit()
     {
         Application.Quit();
+    }
+
+    public void pressedBack()
+    {
+        movingToMenu = true;
     }
 }
