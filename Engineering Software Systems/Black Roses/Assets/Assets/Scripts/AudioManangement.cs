@@ -14,7 +14,7 @@ public class AudioManangement : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        for (int i = 0; i < audioName.Count+1; i++)
+        for (int i = 0; i < audioName.Count; i++)
         {
             dicAudioSources.Add(audioName[i], audioFile[i] );
         }

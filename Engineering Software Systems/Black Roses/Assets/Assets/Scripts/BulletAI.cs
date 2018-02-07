@@ -30,4 +30,13 @@ public class BulletAI : MonoBehaviour {
         Destroy(gameObject, 2f);
 
 	}
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.transform.tag == "Ground")
+        {
+            Destroy(gameObject);
+            //play impact sound effect
+        }
+    }
 }
