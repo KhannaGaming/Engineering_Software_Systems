@@ -9,7 +9,6 @@ public class Controls : MonoBehaviour {
     private bool m_running;
     private bool m_jump;
     private bool m_flipped;
-    private float dt;
     public int speed;
     public int jumpSpeed;
     private Rigidbody2D rb2D;
@@ -21,7 +20,6 @@ public class Controls : MonoBehaviour {
         m_running = false;
         m_jump = true;
         m_flipped = false;
-        dt = Time.deltaTime;
         rb2D = GetComponent<Rigidbody2D>();
 	}
 	
@@ -43,6 +41,7 @@ public class Controls : MonoBehaviour {
             {
                     StopAllCoroutines();
                     StartCoroutine(FlipLeft());
+                GameObject.Find("AudioManager").GetComponent<AudioManangement>().spawnAudio("bells8");
             }
             if (rb2D.velocity.x > 0)
             {
@@ -72,6 +71,7 @@ public class Controls : MonoBehaviour {
         {
             m_jump = true;
             rb2D.velocity = new Vector2(rb2D.velocity.x,jumpSpeed);
+            GameObject.Find("AudioManager").GetComponent<AudioManangement>().spawnAudio("waterSound");
         }
 
         if (m_jump == false)

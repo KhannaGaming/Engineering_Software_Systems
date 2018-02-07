@@ -28,6 +28,7 @@ public class GunFiring : MonoBehaviour {
             if (Input.GetButton("Fire1"))
             {
                 Instantiate(bulletPrefab, firePointTransform.position, firePointTransform.rotation);
+                GameObject.Find("AudioManager").GetComponent<AudioManangement>().spawnAudio("bulletSound");
                 CurCooldown = 0;
             }
         }

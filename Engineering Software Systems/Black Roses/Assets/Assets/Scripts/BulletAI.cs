@@ -27,7 +27,7 @@ public class BulletAI : MonoBehaviour {
         Vector3 normPos = relativePos.normalized;
         rb2d.velocity = normPos * bulletSpeed;
 
-        Destroy(gameObject, 2);
+        Destroy(gameObject, 2f);
 
 	}
 }
