@@ -6,6 +6,7 @@ public class GunFiring : MonoBehaviour {
 
     public Transform bulletPrefab;
     public Transform firePointTransform;
+    private Transform elbowTransform;
 
     public Vector3 mousePos;
     public Vector3 relativePos;
@@ -16,8 +17,10 @@ public class GunFiring : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-       
-	}
+
+        elbowTransform = GameObject.Find("Elbow").transform;
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -38,9 +41,11 @@ public class GunFiring : MonoBehaviour {
     {
 
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        relativePos =  mousePos - GameObject.Find("Elbow").transform.position ;
+        Quaternion tempQuat = Quaternion.LookRotation(Vector3.forward, relativePos);
+     
+        elbowTransform.rotation = Quaternion.LookRotation(Vector3.forward, relativePos);
+        elbowTransform.eulerAngles = new Vector3(0,0, elbowTransform.eulerAngles.z+90);
 
-         relativePos =  mousePos - GameObject.Find("Elbow").transform.position ;
-         GameObject.Find("Elbow").transform.rotation = Quaternion.LookRotation(Vector3.forward, relativePos);
-        GameObject.Find("Elbow").transform.eulerAngles = new Vector3(0,0, GameObject.Find("Elbow").transform.eulerAngles.z+90);
     }
 }
