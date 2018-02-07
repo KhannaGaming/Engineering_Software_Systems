@@ -12,10 +12,11 @@ public class GunFiring : MonoBehaviour {
 
     public float Cooldown;
     private float CurCooldown;
+    
 
 	// Use this for initialization
 	void Start () {
-		
+       
 	}
 	
 	// Update is called once per frame
@@ -37,7 +38,7 @@ public class GunFiring : MonoBehaviour {
 
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-         relativePos =  mousePos - GameObject.Find("Elbow").transform.localPosition ;
+         relativePos =  mousePos - GameObject.Find("Elbow").transform.position ;
          GameObject.Find("Elbow").transform.rotation = Quaternion.LookRotation(Vector3.forward, relativePos);
         GameObject.Find("Elbow").transform.eulerAngles = new Vector3(0,0, GameObject.Find("Elbow").transform.eulerAngles.z+90);
     }

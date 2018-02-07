@@ -15,8 +15,8 @@ public class BulletAI : MonoBehaviour {
     // Use this for initialization
 	void Start () {
         rb2d = GetComponent<Rigidbody2D>();
-        dt = Time.deltaTime;
-         mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+        // dt = Time.deltaTime;
+        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
 
          relativePos = mousePos - GameObject.Find("FirePoint").transform.position;
