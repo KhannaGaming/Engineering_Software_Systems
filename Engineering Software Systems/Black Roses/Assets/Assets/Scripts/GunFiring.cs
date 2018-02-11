@@ -28,7 +28,7 @@ public class GunFiring : MonoBehaviour {
         CurCooldown += Time.deltaTime;
         if (CurCooldown > Cooldown)
         {
-            if (Input.GetButton("Fire1"))
+            if (Input.GetMouseButton(0))
             {
                 Instantiate(bulletPrefab, firePointTransform.position, firePointTransform.rotation);
                 GameObject.Find("AudioManager").GetComponent<AudioManangement>().spawnAudio("bulletSound");

@@ -9,10 +9,15 @@ public class Controls : MonoBehaviour {
     private bool m_running;
     private bool m_jump;
     private bool m_flipped;
-    public int speed;
-    public int jumpSpeed;
+    private int m_speed;
+    public int m_walkingSpeed;
+    public int m_runningSpeed;
+    public int m_jumpSpeed;
     private Rigidbody2D rb2D;
     public Vector2 velocity;
+    private bool m_hasJetPack;
+    private bool m_hasUsedJetPack;
+    private float dt;
 
     // Use this for initialization
     void Start () {
@@ -20,11 +25,18 @@ public class Controls : MonoBehaviour {
         m_running = false;
         m_jump = true;
         m_flipped = false;
+        m_hasJetPack = false;
+        m_hasUsedJetPack = false;
+        dt = Time.deltaTime;
+        m_speed = m_walkingSpeed;
+
         rb2D = GetComponent<Rigidbody2D>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+                
+
         velocity = rb2D.velocity;
         if (Input.GetKey("escape"))
         {
@@ -35,13 +47,12 @@ public class Controls : MonoBehaviour {
 
         if(Mathf.Abs(Input.GetAxis("Horizontal")) > 0)
         {
-                rb2D.velocity = new Vector2(Input.GetAxis("Horizontal")*speed, rb2D.velocity.y);
+                rb2D.velocity = new Vector2(Input.GetAxis("Horizontal")*m_speed, rb2D.velocity.y);
                 m_running = true;
             if(rb2D.velocity.x < 0)
             {
                     StopAllCoroutines();
                     StartCoroutine(FlipLeft());
-                GameObject.Find("AudioManager").GetComponent<AudioManangement>().spawnAudio("bells8");
             }
             if (rb2D.velocity.x > 0)
             {
@@ -55,7 +66,14 @@ public class Controls : MonoBehaviour {
             rb2D.velocity = new Vector2(0, rb2D.velocity.y);
         }
       
-             
+             if(Input.GetButton("Left Shift"))
+        {
+            m_speed = m_runningSpeed;
+        }
+        else
+        {
+            m_speed = m_walkingSpeed;
+        }
 
         if (m_running == false)
         {
@@ -67,19 +85,33 @@ public class Controls : MonoBehaviour {
             m_Animator.SetBool("Running", true);
         }
 
+    //Jumping
+        
+     
+        
+
         if (Input.GetKeyDown("space") && m_jump == false)
         {
             m_jump = true;
-            rb2D.velocity = new Vector2(rb2D.velocity.x,jumpSpeed);
-            GameObject.Find("AudioManager").GetComponent<AudioManangement>().spawnAudio("waterSound");
+            rb2D.velocity = new Vector2(rb2D.velocity.x,m_jumpSpeed);
+
+        }
+        else if (Input.GetKeyDown("space") && m_jump == true)
+        {
+            if(m_hasJetPack && m_hasUsedJetPack == false)
+            {
+                rb2D.velocity = new Vector2(rb2D.velocity.x, m_jumpSpeed*2);
+                m_hasUsedJetPack = true;
+            }
         }
 
+
+    //Jump animation
         if (m_jump == false)
         {
             m_Animator.SetBool("Jump", false);
         }
-
-        if (m_jump == true)
+        else
         {
             m_Animator.SetBool("Jump", true);
         }
@@ -110,6 +142,7 @@ public class Controls : MonoBehaviour {
         if(collision.transform.tag == "Ground")
         {
             m_jump = false;
+            m_hasUsedJetPack = false;
         }
         if (collision.transform.name == "KillZone")
         {
@@ -120,5 +153,10 @@ public class Controls : MonoBehaviour {
     private void ResetPosition()
     {
         transform.position = new Vector3(-4.34f,-1.49f,0.0f);
+    }
+
+    public void pickUpJetPack()
+    {
+        m_hasJetPack = true;
     }
 }
