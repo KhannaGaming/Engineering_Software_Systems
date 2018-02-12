@@ -9,6 +9,7 @@ public class Controls : MonoBehaviour {
     private bool m_running;
     private bool m_jump;
     private bool m_flipped;
+    private bool m_BarDepleted;
     private int m_speed;
     public int m_walkingSpeed;
     public int m_runningSpeed;
@@ -17,7 +18,10 @@ public class Controls : MonoBehaviour {
     public Vector2 velocity;
     private bool m_hasJetPack;
     private bool m_hasUsedJetPack;
-    private float dt;
+    public float m_warpRefillSpeed;
+
+    public float Cooldown;
+    public float CurCooldown;
 
     // Use this for initialization
     void Start () {
@@ -27,7 +31,7 @@ public class Controls : MonoBehaviour {
         m_flipped = false;
         m_hasJetPack = false;
         m_hasUsedJetPack = false;
-        dt = Time.deltaTime;
+        m_BarDepleted = false;
         m_speed = m_walkingSpeed;
 
         rb2D = GetComponent<Rigidbody2D>();
@@ -35,7 +39,6 @@ public class Controls : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-                
 
         velocity = rb2D.velocity;
         if (Input.GetKey("escape"))
@@ -66,13 +69,39 @@ public class Controls : MonoBehaviour {
             rb2D.velocity = new Vector2(0, rb2D.velocity.y);
         }
       
-             if(Input.GetButton("Left Shift"))
+        if(Input.GetButton("Left Shift"))
         {
-            m_speed = m_runningSpeed;
+            if (Time.timeScale == 1.0f &! m_BarDepleted)
+            {
+                CurCooldown = 0;
+                m_BarDepleted = true;
+            }
+
+                CurCooldown += Time.deltaTime;
+                if (CurCooldown < Cooldown)
+                {
+                    Time.timeScale = 0.5f;
+                    GameObject.Find("BarTime").transform.localScale -= new Vector3(0.003f, 0, 0);
+                    
+                }
+                else
+                {
+                    Time.timeScale = 1.0f;
+                }
+            
         }
         else
         {
-            m_speed = m_walkingSpeed;
+            
+            if (Time.timeScale != 1.0f || m_BarDepleted)
+            {
+                Time.timeScale = 1.0f;
+
+            }
+                m_BarDepleted = false;
+           
+                GameObject.Find("BarTime").transform.localScale += new Vector3(m_warpRefillSpeed, 0, 0);
+            
         }
 
         if (m_running == false)
@@ -100,7 +129,7 @@ public class Controls : MonoBehaviour {
         {
             if(m_hasJetPack && m_hasUsedJetPack == false)
             {
-                rb2D.velocity = new Vector2(rb2D.velocity.x, m_jumpSpeed*2);
+                rb2D.velocity = new Vector2(rb2D.velocity.x, m_jumpSpeed*2 );
                 m_hasUsedJetPack = true;
             }
         }
@@ -115,6 +144,12 @@ public class Controls : MonoBehaviour {
         {
             m_Animator.SetBool("Jump", true);
         }
+
+
+        GameObject.Find("BarTime").transform.localScale = new Vector3(Mathf.Clamp(GameObject.Find("BarTime").transform.localScale.x, 0, 1),
+                                                                        GameObject.Find("BarTime").transform.localScale.y,
+                                                                        0);
+
     }
 
     IEnumerator FlipRight()

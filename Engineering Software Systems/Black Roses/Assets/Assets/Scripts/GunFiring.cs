@@ -41,9 +41,7 @@ public class GunFiring : MonoBehaviour {
     {
 
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        relativePos =  mousePos - GameObject.Find("Elbow").transform.position ;
-        Quaternion tempQuat = Quaternion.LookRotation(Vector3.forward, relativePos);
-     
+        relativePos =  mousePos - GameObject.Find("Elbow").transform.position ;     
         elbowTransform.rotation = Quaternion.LookRotation(Vector3.forward, relativePos);
         elbowTransform.eulerAngles = new Vector3(0,0, elbowTransform.eulerAngles.z+90);
 

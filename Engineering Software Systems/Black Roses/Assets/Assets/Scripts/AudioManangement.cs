@@ -7,8 +7,10 @@ public class AudioManangement : MonoBehaviour {
     public GameObject soundPrefab;
     public List<string> audioName = new List<string>();
     public List<AudioClip> audioFile = new List<AudioClip>();
+    public List<float> volume = new List<float>();
 
     private Dictionary<string, AudioClip> dicAudioSources = new Dictionary<string, AudioClip>();
+    private Dictionary<string, float> dicAudioSourcesVolumes = new Dictionary<string, float>();
 
 
     // Use this for initialization
@@ -18,7 +20,11 @@ public class AudioManangement : MonoBehaviour {
         {
             dicAudioSources.Add(audioName[i], audioFile[i] );
         }
-	}
+        for (int i = 0; i < audioFile.Count; i++)
+        {
+            dicAudioSourcesVolumes.Add(audioName[i], volume[i]);
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -31,6 +37,7 @@ public class AudioManangement : MonoBehaviour {
         soundObject.transform.parent = gameObject.transform;
         soundObject.AddComponent<AudioSource>();
         soundObject.GetComponent<AudioSource>().clip = dicAudioSources[soundName];
+        soundObject.GetComponent<AudioSource>().volume = dicAudioSourcesVolumes[soundName];
         soundObject.GetComponent<AudioSource>().Play();
     }
 

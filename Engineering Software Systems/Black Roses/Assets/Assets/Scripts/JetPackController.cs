@@ -20,7 +20,9 @@ public class JetPackController : MonoBehaviour {
         if(collision.name == "Player")
             {
                 collision.GetComponent<Controls>().pickUpJetPack();
-                Destroy(gameObject);
+                transform.parent = GameObject.Find("Back").transform;
+                GetComponent<SpriteRenderer>().flipX = true;
+                transform.position = GameObject.Find("Back").transform.position;
             }
         }
     }
