@@ -39,7 +39,6 @@ public class Controls : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
         velocity = rb2D.velocity;
         if (Input.GetKey("escape"))
         {
@@ -52,16 +51,6 @@ public class Controls : MonoBehaviour {
         {
                 rb2D.velocity = new Vector2(Input.GetAxis("Horizontal")*m_speed, rb2D.velocity.y);
                 m_running = true;
-            if(rb2D.velocity.x < 0)
-            {
-                    StopAllCoroutines();
-                    StartCoroutine(FlipLeft());
-            }
-            if (rb2D.velocity.x > 0)
-            {
-                StopAllCoroutines();
-                StartCoroutine(FlipRight());
-            }
         }
         else
         {
@@ -193,5 +182,15 @@ public class Controls : MonoBehaviour {
     public void pickUpJetPack()
     {
         m_hasJetPack = true;
+    }
+    public void flipPlayerLeft()
+    {
+        StopAllCoroutines();
+        StartCoroutine(FlipLeft());
+    }
+    public void flipPlayerRight()
+    {
+        StopAllCoroutines();
+        StartCoroutine(FlipRight());
     }
 }

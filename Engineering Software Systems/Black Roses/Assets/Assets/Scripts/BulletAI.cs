@@ -12,12 +12,10 @@ public class BulletAI : MonoBehaviour
     public Vector3 relativePos;
     private float bulletSpeed = 10f;
 
-    private float dt;
     // Use this for initialization
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        // dt = Time.deltaTime;
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
 
@@ -27,9 +25,16 @@ public class BulletAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 normPos = relativePos.normalized;
-        rb2d.velocity = normPos * bulletSpeed;
 
+        Vector3 normPos = relativePos.normalized;
+        if (normPos.y > 0.0)
+        {
+            rb2d.velocity = normPos * bulletSpeed;
+        }
+        else
+        {
+            rb2d.velocity = new Vector2(normPos.x, 0) * bulletSpeed;
+        }
         Destroy(gameObject, 2f);
 
     }
