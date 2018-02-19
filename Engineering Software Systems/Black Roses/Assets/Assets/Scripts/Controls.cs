@@ -14,14 +14,14 @@ public class Controls : MonoBehaviour {
     public int m_walkingSpeed;
     public int m_runningSpeed;
     public int m_jumpSpeed;
+    public int m_health;
     private Rigidbody2D rb2D;
-    public Vector2 velocity;
     private bool m_hasJetPack;
     private bool m_hasUsedJetPack;
     public float m_warpRefillSpeed;
 
     public float Cooldown;
-    public float CurCooldown;
+    private float CurCooldown;
 
     // Use this for initialization
     void Start () {
@@ -33,19 +33,17 @@ public class Controls : MonoBehaviour {
         m_hasUsedJetPack = false;
         m_BarDepleted = false;
         m_speed = m_walkingSpeed;
+        m_health = 100;
 
         rb2D = GetComponent<Rigidbody2D>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        velocity = rb2D.velocity;
         if (Input.GetKey("escape"))
         {
             SceneManager.LoadScene("Main_Menu");
-        }
-
-        
+        }        
 
         if(Mathf.Abs(Input.GetAxis("Horizontal")) > 0)
         {
@@ -139,7 +137,11 @@ public class Controls : MonoBehaviour {
                                                                         GameObject.Find("BarTime").transform.localScale.y,
                                                                         0);
 
-    }
+        if(m_health <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }//End of Update...
 
     IEnumerator FlipRight()
     {
@@ -171,6 +173,15 @@ public class Controls : MonoBehaviour {
         if (collision.transform.name == "KillZone")
         {
             ResetPosition();
+        }
+        if (collision.transform.tag == "Enemy")
+        {
+            CurCooldown += Time.deltaTime;
+            if (CurCooldown < Cooldown)
+            {
+                m_health -= 20;
+                CurCooldown = 0;
+            }
         }
     }
 

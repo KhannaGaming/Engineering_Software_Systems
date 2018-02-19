@@ -13,7 +13,10 @@ public class staminaBars : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        playerPosition = playerGO.transform.position;
-        transform.position = new Vector3(playerPosition.x+4.0f, playerPosition.y+2.0f, playerPosition.z);
+        if (playerGO)
+        {
+            playerPosition = playerGO.transform.position;
+            transform.position = new Vector3(playerPosition.x + 4.0f, playerPosition.y + 2.0f, playerPosition.z);
+        }
 	}
 }

@@ -25,7 +25,7 @@ public class EnemyController : MonoBehaviour {
 
         if(health<0)
         {
-            animator.SetBool("m_dead", true);
+           // animator.SetBool("m_dead", true);
             Destroy(gameObject,0.833f);
         }
 
@@ -54,7 +54,7 @@ public class EnemyController : MonoBehaviour {
     {
         if(collider.transform.tag == "Bullet")
         {
-            health -= 1;
+            health -= 2;
         }
     }
 }
