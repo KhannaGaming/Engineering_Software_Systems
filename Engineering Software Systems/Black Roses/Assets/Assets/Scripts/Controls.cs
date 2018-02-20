@@ -23,6 +23,7 @@ public class Controls : MonoBehaviour {
     public float Cooldown;
     private float CurCooldown;
 
+    private Vector3 InitialPosition;
     // Use this for initialization
     void Start () {
         m_Animator = gameObject.GetComponent<Animator>();
@@ -36,6 +37,7 @@ public class Controls : MonoBehaviour {
         m_health = 100;
 
         rb2D = GetComponent<Rigidbody2D>();
+        InitialPosition = transform.localPosition;
 	}
 	
 	// Update is called once per frame
@@ -68,7 +70,7 @@ public class Controls : MonoBehaviour {
                 if (CurCooldown < Cooldown)
                 {
                     Time.timeScale = 0.5f;
-                    GameObject.Find("BarTime").transform.localScale -= new Vector3(0.003f, 0, 0);
+                    GameObject.Find("BarTime").transform.localScale -= new Vector3(0.003f, 0.003f, 0);
                     
                 }
                 else
@@ -87,7 +89,7 @@ public class Controls : MonoBehaviour {
             }
                 m_BarDepleted = false;
            
-                GameObject.Find("BarTime").transform.localScale += new Vector3(m_warpRefillSpeed, 0, 0);
+                GameObject.Find("BarTime").transform.localScale += new Vector3(m_warpRefillSpeed, m_warpRefillSpeed, 0);
             
         }
 
@@ -134,7 +136,7 @@ public class Controls : MonoBehaviour {
 
 
         GameObject.Find("BarTime").transform.localScale = new Vector3(Mathf.Clamp(GameObject.Find("BarTime").transform.localScale.x, 0, 1),
-                                                                        GameObject.Find("BarTime").transform.localScale.y,
+                                                                        Mathf.Clamp(GameObject.Find("BarTime").transform.localScale.y, 0, 1),
                                                                         0);
 
         if(m_health <= 0)
@@ -182,6 +184,10 @@ public class Controls : MonoBehaviour {
                 m_health -= 20;
                 CurCooldown = 0;
             }
+        }
+        if(collision.transform.tag == "Spike")
+        {
+            transform.localPosition =   InitialPosition;
         }
     }
 

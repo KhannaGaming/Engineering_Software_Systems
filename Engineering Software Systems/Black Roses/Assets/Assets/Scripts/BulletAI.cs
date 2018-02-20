@@ -8,8 +8,8 @@ public class BulletAI : MonoBehaviour
 
     Rigidbody2D rb2d;
 
-    public Vector3 mousePos;
-    public Vector3 relativePos;
+    private Vector3 mousePos;
+    private Vector3 relativePos;
     private float bulletSpeed = 10f;
 
     // Use this for initialization
@@ -41,7 +41,7 @@ public class BulletAI : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.tag == "Ground"|| collision.transform.tag == "Wall")
+        if (collision.transform.tag == "Ground"|| collision.transform.tag == "Wall" || collision.transform.tag == "Destructible" || collision.transform.tag == "Enemy")
         {
             Destroy(gameObject);
             //play impact sound effect
