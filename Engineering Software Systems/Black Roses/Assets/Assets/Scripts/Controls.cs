@@ -22,6 +22,7 @@ public class Controls : MonoBehaviour {
 
     public float Cooldown;
     private float CurCooldown;
+    private float enemyCollisionCurCooldown;
 
     private Vector3 InitialPosition;
     // Use this for initialization
@@ -141,7 +142,7 @@ public class Controls : MonoBehaviour {
 
         if(m_health <= 0)
         {
-            Destroy(gameObject);
+            SceneManager.LoadScene("Main_Menu");
         }
     }//End of Update...
 
@@ -176,21 +177,26 @@ public class Controls : MonoBehaviour {
         {
             ResetPosition();
         }
-        if (collision.transform.tag == "Enemy")
-        {
-            CurCooldown += Time.deltaTime;
-            if (CurCooldown < Cooldown)
-            {
-                m_health -= 20;
-                CurCooldown = 0;
-            }
-        }
+        
         if(collision.transform.tag == "Spike")
         {
             transform.localPosition =   InitialPosition;
         }
     }
-
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.transform.tag == "Enemy")
+        {
+            enemyCollisionCurCooldown += Time.deltaTime;
+            if (enemyCollisionCurCooldown < Cooldown)
+            {
+                //  transform.position += new Vector3(-200.0f * Time.deltaTime, 0,0);
+                rb2D.AddForce(new Vector2(20,0));
+                m_health -= 20;
+                enemyCollisionCurCooldown = 0;
+            }
+        }
+    }
     private void ResetPosition()
     {
         transform.position = new Vector3(-4.34f,-1.49f,0.0f);

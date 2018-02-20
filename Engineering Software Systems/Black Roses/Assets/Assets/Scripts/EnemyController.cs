@@ -95,7 +95,7 @@ public class EnemyController : MonoBehaviour {
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.transform.tag == "Enemy")
+        if(collision.transform.tag == "Enemy"|| collision.transform.tag == "Player")
         {
             Physics2D.IgnoreCollision(collision.transform.GetComponent<CircleCollider2D>(), GetComponent<CircleCollider2D>());
         }
