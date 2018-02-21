@@ -8,7 +8,7 @@ public class BulletAI : MonoBehaviour
 
     Rigidbody2D rb2d;
 
-    private Vector3 mousePos;
+    private Vector3 Direction;
     private Vector3 relativePos;
     private float bulletSpeed = 10f;
 
@@ -16,25 +16,17 @@ public class BulletAI : MonoBehaviour
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Direction = GameObject.Find("Direction").transform.position;
 
-
-        relativePos = mousePos - GameObject.Find("Elbow").transform.position;
+        relativePos = Direction - GameObject.Find("FirePoint").transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        Vector3 normPos = relativePos.normalized;
-        if (normPos.y > 0.0)
-        {
-            rb2d.velocity = normPos * bulletSpeed;
-        }
-        else
-        {
-            rb2d.velocity = new Vector2(normPos.x, 0) * bulletSpeed;
-        }
+        rb2d.velocity = new Vector2(relativePos.normalized.x * bulletSpeed,relativePos.normalized.y *bulletSpeed);
+
         Destroy(gameObject, 2f);
 
     }

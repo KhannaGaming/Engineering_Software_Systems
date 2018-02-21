@@ -21,7 +21,7 @@ public class EnemyController : MonoBehaviour {
     public float maxX;
 
     public float Cooldown;
-    private float CurCooldown;
+    private float CurCooldown = 3;
 
     public Transform bulletPrefab;
     public Transform firePointTransform;
