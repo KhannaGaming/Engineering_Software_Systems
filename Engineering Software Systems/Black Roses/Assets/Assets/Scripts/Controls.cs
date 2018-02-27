@@ -2,29 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Controls : MonoBehaviour {
+    //----------------------------------------------------------------------------
+    //BOOLS 
+    bool m_running;
+    bool m_jump;
+    bool m_flipped;
+    bool m_BarDepleted;
+    bool m_hasJetPack;
+    bool m_hasUsedJetPack;
 
-    Animator m_Animator;
-    private bool m_running;
-    private bool m_jump;
-    private bool m_flipped;
-    private bool m_BarDepleted;
-    private int m_speed;
+    //----------------------------------------------------------------------------
+    //INTS     
     public int m_walkingSpeed;
-    public int m_runningSpeed;
     public int m_jumpSpeed;
     public int m_health;
-    private Rigidbody2D rb2D;
-    private bool m_hasJetPack;
-    private bool m_hasUsedJetPack;
+
+    //----------------------------------------------------------------------------
+    //FLOATS   
     public float m_warpRefillSpeed;
-
     public float Cooldown;
-    private float CurCooldown;
-    private float enemyCollisionCurCooldown;
+    float CurCooldown;
+    float enemyCollisionCurCooldown;
 
-    private Vector3 InitialPosition;
+    //----------------------------------------------------------------------------
+    //OTHER 
+    Rigidbody2D rb2D;
+    Animator m_Animator;
+    Vector3 InitialPosition;
+
     // Use this for initialization
     void Start () {
         m_Animator = gameObject.GetComponent<Animator>();
@@ -34,7 +42,6 @@ public class Controls : MonoBehaviour {
         m_hasJetPack = false;
         m_hasUsedJetPack = false;
         m_BarDepleted = false;
-        m_speed = m_walkingSpeed;
         m_health = 100;
 
         rb2D = GetComponent<Rigidbody2D>();
@@ -50,7 +57,7 @@ public class Controls : MonoBehaviour {
 
         if(Mathf.Abs(Input.GetAxis("Horizontal")) > 0)
         {
-                rb2D.velocity = new Vector2(Input.GetAxis("Horizontal")*m_speed, rb2D.velocity.y);
+                rb2D.velocity = new Vector2(Input.GetAxis("Horizontal")*m_walkingSpeed, rb2D.velocity.y);
                 m_running = true;
         }
         else
@@ -144,6 +151,11 @@ public class Controls : MonoBehaviour {
         {
             SceneManager.LoadScene("Main_Menu");
         }
+        else
+        {
+            
+            GameObject.Find("Heart").GetComponent<Image>().sprite = Resources.Load<Sprite>("Health"+Mathf.CeilToInt(m_health/10));
+        }
     }//End of Update...
 
     IEnumerator FlipRight()
@@ -166,7 +178,7 @@ public class Controls : MonoBehaviour {
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.transform.tag == "Ground")
         {
@@ -183,7 +195,8 @@ public class Controls : MonoBehaviour {
             transform.localPosition =   InitialPosition;
         }
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.transform.tag == "Enemy")
         {
@@ -196,8 +209,13 @@ public class Controls : MonoBehaviour {
                 enemyCollisionCurCooldown = 0;
             }
         }
+        if (collision.transform.tag == "EnemyBullet")
+        {
+            m_health -= 10;
+        }
     }
-    private void ResetPosition()
+
+    void ResetPosition()
     {
         transform.position = new Vector3(-4.34f,-1.49f,0.0f);
     }
@@ -206,11 +224,13 @@ public class Controls : MonoBehaviour {
     {
         m_hasJetPack = true;
     }
+
     public void flipPlayerLeft()
     {
         StopAllCoroutines();
         StartCoroutine(FlipLeft());
     }
+
     public void flipPlayerRight()
     {
         StopAllCoroutines();

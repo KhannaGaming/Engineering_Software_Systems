@@ -5,12 +5,17 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuScript : MonoBehaviour {
-
+    //----------------------------------------------------------------------------
+    //BOOLS 
     private bool movingToSettings = false;
     private bool movingToMenu = false;
+
+    //----------------------------------------------------------------------------
+    //INTS 
     public int cameraSpeed;
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    void Start () {
         GameObject.Find("Music").GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("Volume", 1.0f);
 	}
 	

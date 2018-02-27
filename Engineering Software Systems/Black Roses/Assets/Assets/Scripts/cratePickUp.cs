@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class cratePickUp : MonoBehaviour {
 
+    //----------------------------------------------------------------------------
+    //INTS 
     int m_health;
+    
 	// Use this for initialization
 	void Start () {
         m_health = 50;

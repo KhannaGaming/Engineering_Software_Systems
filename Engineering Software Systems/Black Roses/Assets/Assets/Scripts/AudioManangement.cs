@@ -4,14 +4,20 @@ using UnityEngine;
 
 public class AudioManangement : MonoBehaviour {
 
+    //----------------------------------------------------------------------------
+    //OTHER 
     public GameObject soundPrefab;
+
+    //----------------------------------------------------------------------------
+    //LISTS 
     public List<string> audioName = new List<string>();
     public List<AudioClip> audioFile = new List<AudioClip>();
     public List<float> volume = new List<float>();
 
-    private Dictionary<string, AudioClip> dicAudioSources = new Dictionary<string, AudioClip>();
-    private Dictionary<string, float> dicAudioSourcesVolumes = new Dictionary<string, float>();
-
+    //----------------------------------------------------------------------------
+    //DICTIONARIES
+    Dictionary<string, AudioClip> dicAudioSources = new Dictionary<string, AudioClip>();
+    Dictionary<string, float> dicAudioSourcesVolumes = new Dictionary<string, float>();
 
     // Use this for initialization
     void Start () {
@@ -39,7 +45,5 @@ public class AudioManangement : MonoBehaviour {
         soundObject.GetComponent<AudioSource>().clip = dicAudioSources[soundName];
         soundObject.GetComponent<AudioSource>().volume = dicAudioSourcesVolumes[soundName];
         soundObject.GetComponent<AudioSource>().Play();
-    }
-
-    
+    }    
 }

@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class BulletAI : MonoBehaviour
 {
+    //----------------------------------------------------------------------------
+    //BOOLS 
+    float m_bulletSpeed = 10f;
 
-
+    //----------------------------------------------------------------------------
+    //OTHER
     Rigidbody2D rb2d;
-
-    private Vector3 Direction;
-    private Vector3 relativePos;
-    private float bulletSpeed = 10f;
+    Vector3 Direction;
+    Vector3 relativePos;
+   
 
     // Use this for initialization
     void Start()
@@ -25,13 +28,13 @@ public class BulletAI : MonoBehaviour
     void Update()
     {
 
-        rb2d.velocity = new Vector2(relativePos.normalized.x * bulletSpeed,relativePos.normalized.y *bulletSpeed);
+        rb2d.velocity = new Vector2(relativePos.normalized.x * m_bulletSpeed,relativePos.normalized.y *m_bulletSpeed);
 
         Destroy(gameObject, 2f);
 
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.transform.tag == "Ground"|| collision.transform.tag == "Wall" || collision.transform.tag == "Destructible" || collision.transform.tag == "Enemy")
         {

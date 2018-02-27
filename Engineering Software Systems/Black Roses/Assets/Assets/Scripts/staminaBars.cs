@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class staminaBars : MonoBehaviour {
-
+    //----------------------------------------------------------------------------
+    //OTHER 
     public GameObject playerGO;
-    private Vector3 playerPosition;
+    Vector3 playerPosition;
 	// Use this for initialization
 	void Start () {
 		

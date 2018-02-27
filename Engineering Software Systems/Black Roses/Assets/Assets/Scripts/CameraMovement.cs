@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour {
-
+    //----------------------------------------------------------------------------
+    //OTHER
     public Transform playerTransform;
     
-
 	// Use this for initialization
 	void Start () {
 		

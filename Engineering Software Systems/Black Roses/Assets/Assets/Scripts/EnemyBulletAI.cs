@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class EnemyBulletAI : MonoBehaviour
 {
+    //----------------------------------------------------------------------------
+    //BOOLS 
+    float m_bulletSpeed = 10f;
 
-
+    //----------------------------------------------------------------------------
+    //OTHER 
     Rigidbody2D rb2d;
-    private Vector3 playerPos;
-    private Vector3 relativePos;
-
-    public float m_bulletSpeed = 10f;
+    Vector3 playerPos;
+    Vector3 relativePos;
 
     // Use this for initialization
     void Start()
