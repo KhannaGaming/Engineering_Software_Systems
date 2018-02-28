@@ -7,10 +7,6 @@ public class CameraMovement : MonoBehaviour {
     //OTHER
     public Transform playerTransform;
     
-	// Use this for initialization
-	void Start () {
-		
-	}
 
     // Update is called once per frame
     void Update()

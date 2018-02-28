@@ -10,17 +10,17 @@ public class GunFiring : MonoBehaviour {
     //----------------------------------------------------------------------------
     //FLOATS 
     public float Cooldown;
-    float CurCooldown;
+    private float CurCooldown;
 
     //----------------------------------------------------------------------------
     //OTHER 
     public Transform bulletPrefab;
     public Transform firePointTransform;
-    Transform elbowTransform;
-    Transform armTransform;
-    Vector3 mousePos;
-    Vector3 relativePos;
-    Vector3 relativePosToFirepoint;
+    private Transform elbowTransform;
+    private Transform armTransform;
+    private Vector3 mousePos;
+    private Vector3 relativePos;
+    private Vector3 relativePosToFirepoint;
     public Vector3 elbowangles;    
 
 	// Use this for initialization

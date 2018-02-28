@@ -16,8 +16,8 @@ public class AudioManangement : MonoBehaviour {
 
     //----------------------------------------------------------------------------
     //DICTIONARIES
-    Dictionary<string, AudioClip> dicAudioSources = new Dictionary<string, AudioClip>();
-    Dictionary<string, float> dicAudioSourcesVolumes = new Dictionary<string, float>();
+    private Dictionary<string, AudioClip> dicAudioSources = new Dictionary<string, AudioClip>();
+    private Dictionary<string, float> dicAudioSourcesVolumes = new Dictionary<string, float>();
 
     // Use this for initialization
     void Start () {
@@ -31,11 +31,6 @@ public class AudioManangement : MonoBehaviour {
             dicAudioSourcesVolumes.Add(audioName[i], volume[i]);
         }
     }
-	
-	// Update is called once per frame
-	void Update () {
-
-	}
 
     public void spawnAudio(string soundName)
     {

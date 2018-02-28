@@ -7,31 +7,31 @@ using UnityEngine.UI;
 public class Controls : MonoBehaviour {
     //----------------------------------------------------------------------------
     //BOOLS 
-    bool m_running;
-    bool m_jump;
-    bool m_flipped;
-    bool m_BarDepleted;
-    bool m_hasJetPack;
-    bool m_hasUsedJetPack;
+    private bool m_running;
+    private bool m_jump;
+    private bool m_flipped;
+    private bool m_BarDepleted;
+    private bool m_hasJetPack;
+    private bool m_hasUsedJetPack;
 
     //----------------------------------------------------------------------------
     //INTS     
-    public int m_walkingSpeed;
-    public int m_jumpSpeed;
-    public int m_health;
+    private int m_walkingSpeed;
+    private int m_jumpSpeed;
+    private int m_health;
 
     //----------------------------------------------------------------------------
     //FLOATS   
-    public float m_warpRefillSpeed;
+    private float m_warpRefillSpeed;
     public float Cooldown;
-    float CurCooldown;
-    float enemyCollisionCurCooldown;
+    private float CurCooldown;
+    private float enemyCollisionCurCooldown;
 
     //----------------------------------------------------------------------------
     //OTHER 
-    Rigidbody2D rb2D;
-    Animator m_Animator;
-    Vector3 InitialPosition;
+    private Rigidbody2D rb2D;
+    private Animator m_Animator;
+    private Vector3 InitialPosition;
 
     // Use this for initialization
     void Start () {
@@ -43,7 +43,9 @@ public class Controls : MonoBehaviour {
         m_hasUsedJetPack = false;
         m_BarDepleted = false;
         m_health = 100;
-
+        m_walkingSpeed = 3;
+        m_jumpSpeed = 10;
+        m_warpRefillSpeed = 0.001f;
         rb2D = GetComponent<Rigidbody2D>();
         InitialPosition = transform.localPosition;
 	}
@@ -105,8 +107,7 @@ public class Controls : MonoBehaviour {
         {
             m_Animator.SetBool("Running", false);
         }
-
-        if (m_running == true)
+        else
         {
             m_Animator.SetBool("Running", true);
         }
@@ -196,7 +197,7 @@ public class Controls : MonoBehaviour {
         }
     }
 
-    void OnTriggerExit2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.transform.tag == "Enemy")
         {
@@ -213,9 +214,13 @@ public class Controls : MonoBehaviour {
         {
             m_health -= 10;
         }
+        if(collision.transform.name == "EndGame")
+        {
+            SceneManager.LoadScene("Main_Menu");
+        }
     }
 
-    void ResetPosition()
+    private void ResetPosition()
     {
         transform.position = new Vector3(-4.34f,-1.49f,0.0f);
     }

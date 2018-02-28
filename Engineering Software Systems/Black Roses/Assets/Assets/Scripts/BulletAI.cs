@@ -6,13 +6,13 @@ public class BulletAI : MonoBehaviour
 {
     //----------------------------------------------------------------------------
     //BOOLS 
-    float m_bulletSpeed = 10f;
+    private float m_bulletSpeed = 10f;
 
     //----------------------------------------------------------------------------
     //OTHER
-    Rigidbody2D rb2d;
-    Vector3 Direction;
-    Vector3 relativePos;
+    private Rigidbody2D rb2d;
+    private Vector3 Direction;
+    private Vector3 relativePos;
    
 
     // Use this for initialization

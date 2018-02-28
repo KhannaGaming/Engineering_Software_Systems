@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cratePickUp : MonoBehaviour {
+public class CratePickup : MonoBehaviour {
 
     //----------------------------------------------------------------------------
     //INTS 
-    int m_health;
+    private int m_health;
     
 	// Use this for initialization
 	void Start () {

@@ -6,11 +6,7 @@ public class staminaBars : MonoBehaviour {
     //----------------------------------------------------------------------------
     //OTHER 
     public GameObject playerGO;
-    Vector3 playerPosition;
-	// Use this for initialization
-	void Start () {
-		
-	}
+    private Vector3 playerPosition;
 	
 	// Update is called once per frame
 	void Update () {

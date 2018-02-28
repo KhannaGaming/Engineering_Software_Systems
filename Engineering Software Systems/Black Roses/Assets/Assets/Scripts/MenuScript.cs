@@ -50,7 +50,7 @@ public class MenuScript : MonoBehaviour {
         GameObject.Find("Music").GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("Volume", 1.0f);
     }
 
-    public void pressedPlay()
+   public void pressedPlay()
     {
         SceneManager.LoadScene("Level01");
     }

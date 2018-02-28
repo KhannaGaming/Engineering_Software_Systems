@@ -15,7 +15,7 @@ public class EnemyController : MonoBehaviour {
     public float m_maxX;
     public float m_speed;
     public float Cooldown;
-    float CurCooldown = 3;
+    private float CurCooldown = 3;
 
     //----------------------------------------------------------------------------
     //INTS 
@@ -25,10 +25,10 @@ public class EnemyController : MonoBehaviour {
     //OTHER 
     public Transform bulletPrefab;
     public Transform firePointTransform;
-    Rigidbody2D rb2d;
-    GameObject MyRayStart;
-    Animator m_Animator;
-    GameObject EnemyFirePoint;
+    private Rigidbody2D rb2d;
+    private GameObject MyRayStart;
+    private Animator m_Animator;
+    private GameObject EnemyFirePoint;
 
     // Use this for initialization
     void Start () {
@@ -107,7 +107,7 @@ public class EnemyController : MonoBehaviour {
         }
     }
 
-    void Raycasting()
+    private void Raycasting()
     {
         Vector3 EndPosition = MyRayStart.transform.position + new Vector3(m_range, 0, 0) * transform.localScale.x;
         Debug.DrawLine(MyRayStart.transform.position, EndPosition, Color.green);

@@ -10,9 +10,9 @@ public class EnemyBulletAI : MonoBehaviour
 
     //----------------------------------------------------------------------------
     //OTHER 
-    Rigidbody2D rb2d;
-    Vector3 playerPos;
-    Vector3 relativePos;
+    private Rigidbody2D rb2d;
+    private Vector3 playerPos;
+    private Vector3 relativePos;
 
     // Use this for initialization
     void Start()
