@@ -48,9 +48,10 @@ public class GunFiring : MonoBehaviour {
 
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos += new Vector3(0.3f, -0.35f,0);
-       //Debug.DrawLine(elbowTransform.position, mousePos, Color.green);
+        mousePos.z = 0.0f;
+        Debug.DrawLine(elbowTransform.position, mousePos, Color.green);
         relativePos = mousePos - elbowTransform.position;
-        //Debug.DrawLine(elbowTransform.position, firePointTransform.position, Color.red);
+        Debug.DrawLine(elbowTransform.position, firePointTransform.position, Color.red);
 
         var angle = Vector3.Angle(relativePos,relativePosToFirepoint);
 

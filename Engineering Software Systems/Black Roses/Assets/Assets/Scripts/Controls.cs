@@ -32,12 +32,13 @@ public class Controls : MonoBehaviour {
     private Rigidbody2D rb2D;
     private Animator m_Animator;
     private Vector3 InitialPosition;
+    private Transform elbowTransform;
 
     // Use this for initialization
     void Start () {
         m_Animator = gameObject.GetComponent<Animator>();
         m_running = false;
-        m_jump = true;
+        m_jump = false;
         m_flipped = false;
         m_hasJetPack = false;
         m_hasUsedJetPack = false;
@@ -48,7 +49,8 @@ public class Controls : MonoBehaviour {
         m_warpRefillSpeed = 0.001f;
         rb2D = GetComponent<Rigidbody2D>();
         InitialPosition = transform.localPosition;
-	}
+        elbowTransform = GameObject.Find("Elbow").transform;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -80,7 +82,7 @@ public class Controls : MonoBehaviour {
                 if (CurCooldown < Cooldown)
                 {
                     Time.timeScale = 0.5f;
-                    GameObject.Find("BarTime").transform.localScale -= new Vector3(0.003f, 0.003f, 0);
+                    GameObject.Find("BarTime").transform.localScale -= new Vector3(0.001f, 0.001f, 0);
                     
                 }
                 else
@@ -132,9 +134,8 @@ public class Controls : MonoBehaviour {
             }
         }
 
-
-    //Jump animation
-        if (m_jump == false)
+            //Jump animation
+            if (m_jump == false)
         {
             m_Animator.SetBool("Jump", false);
         }
@@ -164,6 +165,8 @@ public class Controls : MonoBehaviour {
         if (m_flipped == true)
         {
             transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            elbowTransform.localScale = new Vector3(-elbowTransform.localScale.x, -elbowTransform.localScale.y, elbowTransform.localScale.z);
+            elbowTransform.localPosition = new Vector3(-elbowTransform.localPosition.x, -elbowTransform.localPosition.y, elbowTransform.localPosition.z);
             m_flipped = false;
             yield return 0;
         }
@@ -174,6 +177,8 @@ public class Controls : MonoBehaviour {
         if (m_flipped == false)
         {
             transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            elbowTransform.localScale = new Vector3(-elbowTransform.localScale.x, -elbowTransform.localScale.y, elbowTransform.localScale.z);
+            elbowTransform.localPosition = new Vector3(-elbowTransform.localPosition.x, -elbowTransform.localPosition.y, elbowTransform.localPosition.z);
             m_flipped = true;
             yield return 0;
         }
@@ -216,7 +221,7 @@ public class Controls : MonoBehaviour {
         }
         if(collision.transform.name == "EndGame")
         {
-            SceneManager.LoadScene("Main_Menu");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 
