@@ -12,7 +12,10 @@ public class JetPackController : MonoBehaviour {
             {
                 collision.GetComponent<Controls>().pickUpJetPack();
                 transform.parent = GameObject.Find("Back").transform;
-                GetComponent<SpriteRenderer>().flipX = true;
+                if (collision.transform.localScale.x > 0.0f)
+                {
+                    GetComponent<SpriteRenderer>().flipX = true;
+                }
                 transform.position = GameObject.Find("Back").transform.position;
             }
         }

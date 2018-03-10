@@ -61,7 +61,7 @@ public class BGScroller : MonoBehaviour {
     }
     private void ScrollLeft()
     {
-        int lastRight = rightIndex;
+
         layers[rightIndex].position = new Vector3((layers[leftIndex].position.x - backgroundSize), layers[leftIndex].position.y, 0);
         leftIndex = rightIndex;
         rightIndex--;
@@ -72,7 +72,7 @@ public class BGScroller : MonoBehaviour {
     }
     private void ScrollRight()
     {
-        int lastRight = leftIndex;
+
         layers[leftIndex].position = new Vector3((layers[rightIndex].position.x + backgroundSize), layers[rightIndex].position.y, 0);
         rightIndex = leftIndex;
         leftIndex++;

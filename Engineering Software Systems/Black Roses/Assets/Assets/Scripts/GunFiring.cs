@@ -1,31 +1,42 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GunFiring : MonoBehaviour {
     //----------------------------------------------------------------------------
     //BOOLS 
     public bool facingLeft;
+    private bool reloading;
 
     //----------------------------------------------------------------------------
     //FLOATS 
     public float Cooldown;
     private float CurCooldown;
+    public float reloadCooldown;
+    private float reloadCurCooldown;
+
+    //----------------------------------------------------------------------------
+    //INTS
+    private int curBullets = 20;
+    private int maxBullets = 20;
+
 
     //----------------------------------------------------------------------------
     //OTHER 
     public Transform bulletPrefab;
     public Transform firePointTransform;
+    public Vector3 elbowangles;    
     private Transform elbowTransform;
     private Transform armTransform;
     private Vector3 mousePos;
     private Vector3 relativePos;
     private Vector3 relativePosToFirepoint;
-    public Vector3 elbowangles;    
 
 	// Use this for initialization
 	void Start () {
         facingLeft = false;
+        reloading = false;
         elbowTransform = GameObject.Find("Elbow").transform;
         armTransform = GameObject.Find("Arm").transform;
         relativePosToFirepoint = firePointTransform.position - elbowTransform.position;
@@ -36,13 +47,34 @@ public class GunFiring : MonoBehaviour {
 
         elbowangles = elbowTransform.eulerAngles;
         CurCooldown += Time.deltaTime;
+        
         if (CurCooldown > Cooldown)
         {
-            if (Input.GetMouseButton(0))
+            
+            if (Input.GetMouseButton(0) && curBullets > 0)
             {
                 Instantiate(bulletPrefab, firePointTransform.position, firePointTransform.rotation);
                 GameObject.Find("AudioManager").GetComponent<AudioManangement>().spawnAudio("bulletSound");
                 CurCooldown = 0;
+                curBullets -= 1;
+                reloadCurCooldown = 0;
+            }
+            else if((curBullets == 0 || (Input.GetKeyDown("r") && curBullets!=maxBullets)) && !reloading )
+            {
+                GameObject.Find("AudioManager").GetComponent<AudioManangement>().spawnAudio("reload");
+                reloading = true;
+            }
+
+            if(reloading)
+            {
+                reloadCurCooldown += Time.deltaTime;
+
+                if (reloadCurCooldown > reloadCooldown)
+                {
+                curBullets = maxBullets;
+                reloadCurCooldown = 0;
+                    reloading = false;
+                }
             }
         }
 
@@ -72,5 +104,7 @@ public class GunFiring : MonoBehaviour {
         {
             GetComponentInParent<Controls>().flipPlayerRight();
         }
-    }
+
+        GameObject.Find("Ammo").GetComponent<Text>().text = curBullets + "/" + maxBullets;
+    }//End of Update(..)
 }

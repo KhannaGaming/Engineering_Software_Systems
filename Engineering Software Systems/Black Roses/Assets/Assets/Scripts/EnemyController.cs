@@ -32,7 +32,6 @@ public class EnemyController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        m_health = 100;
         rb2d = GetComponent<Rigidbody2D>();
         m_Animator = GetComponent<Animator>();
 
@@ -47,11 +46,13 @@ public class EnemyController : MonoBehaviour {
 
         if(m_health<0)
         {
-           // animator.SetBool("m_dead", true);
-            Destroy(gameObject,0.833f);
+            m_Animator.SetBool("m_dead", true);
+
+            Destroy(gameObject,0.583f);
         }
         if (!m_spotted)
         {
+            
             if (transform.position.x < m_minX || transform.position.x > m_maxX)
             {
                 transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, 0);
@@ -61,6 +62,7 @@ public class EnemyController : MonoBehaviour {
             {
                 rb2d.velocity = new Vector2(-m_speed, 0);
                 m_Animator.SetBool("m_running", true);
+                m_Animator.SetBool("m_shooting", false);
                 EnemyFirePoint.transform.eulerAngles = new Vector3(0, 0, 180);
 
 
@@ -69,6 +71,7 @@ public class EnemyController : MonoBehaviour {
             {
                 rb2d.velocity = new Vector2(m_speed, 0);
                 m_Animator.SetBool("m_running", true);
+                m_Animator.SetBool("m_shooting", false);
                 EnemyFirePoint.transform.eulerAngles = new Vector3(0, 0, 0);
             }
         }
@@ -94,7 +97,7 @@ public class EnemyController : MonoBehaviour {
     {
         if(collider.transform.tag == "Bullet")
         {
-            m_health -= 2;
+            m_health -= 10;
         }
         
     }

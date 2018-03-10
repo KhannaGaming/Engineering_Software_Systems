@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Controls : MonoBehaviour {
     //----------------------------------------------------------------------------
     //BOOLS 
-    private bool m_running;
+
     private bool m_jump;
     private bool m_flipped;
     private bool m_BarDepleted;
@@ -37,7 +37,7 @@ public class Controls : MonoBehaviour {
     // Use this for initialization
     void Start () {
         m_Animator = gameObject.GetComponent<Animator>();
-        m_running = false;
+
         m_jump = false;
         m_flipped = false;
         m_hasJetPack = false;
@@ -62,12 +62,12 @@ public class Controls : MonoBehaviour {
         if(Mathf.Abs(Input.GetAxis("Horizontal")) > 0)
         {
                 rb2D.velocity = new Vector2(Input.GetAxis("Horizontal")*m_walkingSpeed, rb2D.velocity.y);
-                m_running = true;
+                m_Animator.SetBool("Running", true);
         }
         else
         {
-            m_running = false;
             rb2D.velocity = new Vector2(0, rb2D.velocity.y);
+            m_Animator.SetBool("Running", false);
         }
       
         if(Input.GetButton("Left Shift"))
@@ -103,15 +103,6 @@ public class Controls : MonoBehaviour {
            
                 GameObject.Find("BarTime").transform.localScale += new Vector3(m_warpRefillSpeed, m_warpRefillSpeed, 0);
             
-        }
-
-        if (m_running == false)
-        {
-            m_Animator.SetBool("Running", false);
-        }
-        else
-        {
-            m_Animator.SetBool("Running", true);
         }
 
     //Jumping
@@ -222,6 +213,10 @@ public class Controls : MonoBehaviour {
         if(collision.transform.name == "EndGame")
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+        else if (collision.transform.name == "MainMenu")
+        {
+            SceneManager.LoadScene("Main_Menu");
         }
     }
 
