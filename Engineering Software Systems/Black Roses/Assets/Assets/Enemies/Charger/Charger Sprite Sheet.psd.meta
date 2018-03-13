@@ -1,0 +1,278 @@
+fileFormatVersion: 2
+guid: 7a6b05f853e176d4d99a812f3231be06
+timeCreated: 1520781946
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Charger Sprite Sheet_0
+    21300002: Charger Sprite Sheet_1
+    21300004: Charger Sprite Sheet_2
+    21300006: Charger Sprite Sheet_3
+    21300008: Charger Sprite Sheet_4
+    21300010: Charger Sprite Sheet_5
+    21300012: Charger Sprite Sheet_6
+    21300014: Charger Sprite Sheet_7
+    21300016: Charger Sprite Sheet_8
+    21300018: Charger Sprite Sheet_9
+    21300020: Charger Sprite Sheet_10
+    21300022: Charger Sprite Sheet_11
+    21300024: Charger Sprite Sheet_12
+    21300026: Charger Sprite Sheet_13
+    21300028: Charger Sprite Sheet_14
+    21300030: Charger Sprite Sheet_15
+    21300032: Charger Sprite Sheet_16
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: iPhone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Charger Sprite Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 728
+        width: 349
+        height: 257
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Charger Sprite Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 727
+        width: 349
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Charger Sprite Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 760
+        y: 724
+        width: 353
+        height: 257
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Charger Sprite Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 1140
+        y: 723
+        width: 349
+        height: 258
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Charger Sprite Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 1559
+        y: 732
+        width: 349
+        height: 252
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Charger Sprite Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 467
+        width: 350
+        height: 257
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Charger Sprite Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 459
+        width: 349
+        height: 265
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Charger Sprite Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 764
+        y: 467
+        width: 349
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Charger Sprite Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 100
+        width: 349
+        height: 258
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Charger Sprite Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 359
+        y: 101
+        width: 368
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Charger Sprite Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 771
+        y: 100
+        width: 353
+        height: 273
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Charger Sprite Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 1184
+        y: 95
+        width: 257
+        height: 346
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Charger Sprite Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 1588
+        y: 92
+        width: 256
+        height: 349
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

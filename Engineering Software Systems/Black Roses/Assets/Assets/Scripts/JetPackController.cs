@@ -20,4 +20,16 @@ public class JetPackController : MonoBehaviour {
             }
         }
     }
+
+ public bool test(int x)
+    {
+        if (x == 1)
+        { return true; }
+
+        if (x == 2)
+        { return true; }
+
+        return false;
+    }
+   
 }

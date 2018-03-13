@@ -58,6 +58,11 @@ public class GunFiring : MonoBehaviour {
                 CurCooldown = 0;
                 curBullets -= 1;
                 reloadCurCooldown = 0;
+                reloading = false;
+                if (GameObject.Find("AudioManager").GetComponent<AudioManangement>().isPlaying("Reload"))
+                {
+                    GameObject.Find("AudioManager").GetComponent<AudioManangement>().stopAudio("Reload");
+                }
             }
             else if((curBullets == 0 || (Input.GetKeyDown("r") && curBullets!=maxBullets)) && !reloading )
             {

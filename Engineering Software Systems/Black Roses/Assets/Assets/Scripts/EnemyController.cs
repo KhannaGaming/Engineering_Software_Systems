@@ -7,15 +7,20 @@ public class EnemyController : MonoBehaviour {
     //----------------------------------------------------------------------------
     //BOOLS 
     public bool m_spotted;
+    public enum enemyList { 
+            Grunt,Charger,Bruiser
+        };
+    
+     public enemyList current;
+    
 
     //----------------------------------------------------------------------------
     //FLOATS 
     public float m_range;
-    public float m_minX;
-    public float m_maxX;
     public float m_speed;
     public float Cooldown;
     private float CurCooldown = 3;
+    private float animationLength;
 
     //----------------------------------------------------------------------------
     //INTS 
@@ -29,15 +34,22 @@ public class EnemyController : MonoBehaviour {
     private GameObject MyRayStart;
     private Animator m_Animator;
     private GameObject EnemyFirePoint;
+    private RuntimeAnimatorController ac;
+
+    public void Construct(int health)
+    {
+        m_health = health;
+    }
 
     // Use this for initialization
     void Start () {
+     
         rb2d = GetComponent<Rigidbody2D>();
         m_Animator = GetComponent<Animator>();
-
+        m_Animator.SetBool("m_running", true);
         MyRayStart = transform.GetChild(0).gameObject;
-
         EnemyFirePoint = transform.GetChild(1).gameObject;
+        ac = m_Animator.runtimeAnimatorController;
     }
 	
 	// Update is called once per frame
@@ -47,22 +59,32 @@ public class EnemyController : MonoBehaviour {
         if(m_health<0)
         {
             m_Animator.SetBool("m_dead", true);
+            for (int i = 0; i < ac.animationClips.Length  ; i++)
+            {
+                if (ac.animationClips[i].name == "Death")
+                {
+                    animationLength = ac.animationClips[i].length;
+                }
 
-            Destroy(gameObject,0.583f);
+            }
+            
+            Destroy(gameObject, animationLength);
         }
         if (!m_spotted)
         {
-            
-            if (transform.position.x < m_minX || transform.position.x > m_maxX)
-            {
-                transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, 0);
-            }
+
+           
 
             if (transform.localScale.x < 0)
             {
                 rb2d.velocity = new Vector2(-m_speed, 0);
-                m_Animator.SetBool("m_running", true);
-                m_Animator.SetBool("m_shooting", false);
+
+                if (current.ToString() == "Grunt")
+                {
+                    m_Animator.SetBool("m_running", true);
+                    m_Animator.SetBool("m_shooting", false);
+                }
+
                 EnemyFirePoint.transform.eulerAngles = new Vector3(0, 0, 180);
 
 
@@ -70,27 +92,56 @@ public class EnemyController : MonoBehaviour {
             else
             {
                 rb2d.velocity = new Vector2(m_speed, 0);
-                m_Animator.SetBool("m_running", true);
-                m_Animator.SetBool("m_shooting", false);
+
+                if (current.ToString() == "Grunt")
+                {
+                    m_Animator.SetBool("m_running", true);
+                    m_Animator.SetBool("m_shooting", false);
+                }
+                else if (current.ToString() == "Charger")
+                {
+                    m_Animator.SetBool("m_charging", false);
+                }
                 EnemyFirePoint.transform.eulerAngles = new Vector3(0, 0, 0);
             }
         }
         else
         {
-            m_Animator.SetBool("m_running", false);
-            m_Animator.SetBool("m_shooting", true);
 
-            CurCooldown += Time.deltaTime;
-            if (CurCooldown > Cooldown)
+
+            if (current.ToString() == "Grunt")
             {
-                Instantiate(bulletPrefab, firePointTransform.position, firePointTransform.rotation);
-                CurCooldown = 0;
+                m_Animator.SetBool("m_running", false);
+                m_Animator.SetBool("m_shooting", true);
+
+                CurCooldown += Time.deltaTime;
+
+                if (CurCooldown > Cooldown && m_health <= 0)
+                {
+                    Instantiate(bulletPrefab, firePointTransform.position, firePointTransform.rotation);
+                    GameObject.Find("AudioManager").GetComponent<AudioManangement>().spawnAudio("enemyBullet");
+                    CurCooldown = 0;
+                }
+            }
+            else if (current.ToString() == "Charger")
+            {
+                float tempSpeed = m_speed * 2;
+                m_Animator.SetBool("m_charging", true);
+              
+                if (transform.localScale.x < 0)
+                {
+                    rb2d.velocity = new Vector2(-tempSpeed, 0);
+                    EnemyFirePoint.transform.eulerAngles = new Vector3(0, 0, 180);
+                }
+                else
+                {
+                    rb2d.velocity = new Vector2(tempSpeed, 0);
+                    EnemyFirePoint.transform.eulerAngles = new Vector3(0, 0, 0);
+                }
+
+
             }
         }
-
-        
-
-        transform.position = new Vector3(Mathf.Clamp(transform.position.x, m_minX, m_maxX), transform.position.y, 0);
     }
 
     void OnTriggerEnter2D(Collider2D collider)
@@ -107,6 +158,11 @@ public class EnemyController : MonoBehaviour {
         if(collision.transform.tag == "Enemy"|| collision.transform.tag == "Player")
         {
             Physics2D.IgnoreCollision(collision.transform.GetComponent<CircleCollider2D>(), GetComponent<CircleCollider2D>());
+        }
+
+        if(collision.transform.tag == "EnemyWall"||collision.transform.tag == "Destructible")
+        {
+            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, 0);
         }
     }
 

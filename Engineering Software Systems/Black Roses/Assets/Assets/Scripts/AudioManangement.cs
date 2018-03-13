@@ -41,4 +41,31 @@ public class AudioManangement : MonoBehaviour {
         soundObject.GetComponent<AudioSource>().volume = dicAudioSourcesVolumes[soundName];
         soundObject.GetComponent<AudioSource>().Play();
     }    
+    public void stopAudio(string soundName)
+    {
+        GameObject AudioManager = GameObject.Find("AudioManager");
+        for (int i = 0; i < AudioManager.transform.childCount; i++)
+        {
+           if (AudioManager.transform.GetChild(i).GetComponent<AudioSource>().clip.name == "Reloading")
+            {
+                AudioManager.transform.GetChild(i).GetComponent<AudioSource>().Stop();
+            }
+        }
+    }
+    public bool isPlaying(string soundName)
+    {
+        GameObject AudioManager = GameObject.Find("AudioManager");
+        for (int i = 0; i < AudioManager.transform.childCount; i++)
+        {
+            if (AudioManager.transform.GetChild(i).GetComponent<AudioSource>().clip.name == "Reloading")
+            {
+                if (AudioManager.transform.GetChild(i).GetComponent<AudioSource>().isPlaying)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+        return false;
+    }
 }

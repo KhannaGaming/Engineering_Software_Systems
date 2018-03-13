@@ -13,6 +13,7 @@ public class Controls : MonoBehaviour {
     private bool m_BarDepleted;
     private bool m_hasJetPack;
     private bool m_hasUsedJetPack;
+    private bool m_immune;
 
     //----------------------------------------------------------------------------
     //INTS     
@@ -22,88 +23,42 @@ public class Controls : MonoBehaviour {
 
     //----------------------------------------------------------------------------
     //FLOATS   
-    private float m_warpRefillSpeed;
     public float Cooldown;
+    public float immuneCooldown;
     private float CurCooldown;
-    private float enemyCollisionCurCooldown;
+    private float immuneCurCooldown;
+    private float transparencyValue = 0.02f;
 
     //----------------------------------------------------------------------------
     //OTHER 
     private Rigidbody2D rb2D;
     private Animator m_Animator;
-    private Vector3 InitialPosition;
+
     private Transform elbowTransform;
 
     // Use this for initialization
     void Start () {
         m_Animator = gameObject.GetComponent<Animator>();
-
         m_jump = false;
         m_flipped = false;
         m_hasJetPack = false;
         m_hasUsedJetPack = false;
         m_BarDepleted = false;
+        m_immune = false;
         m_health = 100;
         m_walkingSpeed = 3;
         m_jumpSpeed = 10;
-        m_warpRefillSpeed = 0.001f;
         rb2D = GetComponent<Rigidbody2D>();
-        InitialPosition = transform.localPosition;
         elbowTransform = GameObject.Find("Elbow").transform;
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKey("escape"))
-        {
-            SceneManager.LoadScene("Main_Menu");
-        }        
 
-        if(Mathf.Abs(Input.GetAxis("Horizontal")) > 0)
-        {
-                rb2D.velocity = new Vector2(Input.GetAxis("Horizontal")*m_walkingSpeed, rb2D.velocity.y);
-                m_Animator.SetBool("Running", true);
-        }
-        else
-        {
-            rb2D.velocity = new Vector2(0, rb2D.velocity.y);
-            m_Animator.SetBool("Running", false);
-        }
-      
-        if(Input.GetButton("Left Shift"))
-        {
-            if (Time.timeScale == 1.0f &! m_BarDepleted)
-            {
-                CurCooldown = 0;
-                m_BarDepleted = true;
-            }
+        immuneTesting();
 
-                CurCooldown += Time.deltaTime;
-                if (CurCooldown < Cooldown)
-                {
-                    Time.timeScale = 0.5f;
-                    GameObject.Find("BarTime").transform.localScale -= new Vector3(0.001f, 0.001f, 0);
-                    
-                }
-                else
-                {
-                    Time.timeScale = 1.0f;
-                }
-            
-        }
-        else
-        {
-            
-            if (Time.timeScale != 1.0f || m_BarDepleted)
-            {
-                Time.timeScale = 1.0f;
-
-            }
-                m_BarDepleted = false;
-           
-                GameObject.Find("BarTime").transform.localScale += new Vector3(m_warpRefillSpeed, m_warpRefillSpeed, 0);
-            
-        }
+        playerInput();
+       
 
     //Jumping
         
@@ -125,8 +80,8 @@ public class Controls : MonoBehaviour {
             }
         }
 
-            //Jump animation
-            if (m_jump == false)
+        //Jump animation
+        if (m_jump == false)
         {
             m_Animator.SetBool("Jump", false);
         }
@@ -135,11 +90,11 @@ public class Controls : MonoBehaviour {
             m_Animator.SetBool("Jump", true);
         }
 
-
+        //Boundaries for the BarTime
         GameObject.Find("BarTime").transform.localScale = new Vector3(Mathf.Clamp(GameObject.Find("BarTime").transform.localScale.x, 0, 1),
                                                                         Mathf.Clamp(GameObject.Find("BarTime").transform.localScale.y, 0, 1),
                                                                         0);
-
+        //If Dead
         if(m_health <= 0)
         {
             SceneManager.LoadScene("Main_Menu");
@@ -147,7 +102,7 @@ public class Controls : MonoBehaviour {
         else
         {
             
-            GameObject.Find("Heart").GetComponent<Image>().sprite = Resources.Load<Sprite>("Health"+Mathf.CeilToInt(m_health/10));
+            GameObject.Find("Heart").GetComponent<Image>().sprite = Resources.Load<Sprite>("Hearts/Health"+Mathf.CeilToInt(m_health/10));
         }
     }//End of Update...
 
@@ -177,39 +132,44 @@ public class Controls : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.transform.tag == "Ground")
+        if(collision.transform.tag == "Ground"|| collision.transform.tag == "Destructible")
         {
             m_jump = false;
             m_hasUsedJetPack = false;
         }
-        if (collision.transform.name == "KillZone")
+        else if (collision.transform.name == "KillZone")
         {
             ResetPosition();
-        }
-        
-        if(collision.transform.tag == "Spike")
+        }        
+        else if(collision.transform.tag == "Spike")
         {
-            transform.localPosition =   InitialPosition;
+            SceneManager.LoadScene("Level01");
         }
+
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.tag == "Enemy")
+        if (collision.transform.tag == "Enemy" && !m_immune)
         {
-            enemyCollisionCurCooldown += Time.deltaTime;
-            if (enemyCollisionCurCooldown < Cooldown)
-            {
-                //  transform.position += new Vector3(-200.0f * Time.deltaTime, 0,0);
                 rb2D.AddForce(new Vector2(20,0));
                 m_health -= 20;
-                enemyCollisionCurCooldown = 0;
-            }
+                gameObject.layer = 9;
+                m_immune = true;
         }
-        if (collision.transform.tag == "EnemyBullet")
+        else if (collision.transform.tag == "EnemyBullet" && !m_immune)
         {
             m_health -= 10;
+            gameObject.layer = 9;
+            m_immune = true;
         }
+        else if (collision.transform.name == "Musket" && !m_immune)
+        {
+            m_health -= 5;
+            gameObject.layer = 9;
+            m_immune = true;
+        }
+
         if(collision.transform.name == "EndGame")
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
@@ -230,15 +190,112 @@ public class Controls : MonoBehaviour {
         m_hasJetPack = true;
     }
 
-    public void flipPlayerLeft()
+    public bool flipPlayerLeft()
     {
         StopAllCoroutines();
         StartCoroutine(FlipLeft());
+        return true;
     }
 
     public void flipPlayerRight()
     {
         StopAllCoroutines();
         StartCoroutine(FlipRight());
+    }
+
+    private void immuneTesting()
+    {
+        //Immune Layer
+        if (gameObject.layer == 9)
+        {
+
+
+            if (GetComponent<SpriteRenderer>().color.a < 0.0f)
+            {
+                transparencyValue *= -1.0f;
+            }
+            else if (GetComponent<SpriteRenderer>().color.a > 1.0f)
+            {
+                transparencyValue *= -1.0f;
+            }
+            GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, transparencyValue);
+            GameObject.Find("Gun").GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, transparencyValue);
+            m_immune = true;
+        }
+        else
+        {
+            m_immune = false;
+        }
+
+
+        if (m_immune == true)
+        {
+            gameObject.layer = 9;
+            immuneCurCooldown += Time.deltaTime;
+            if (immuneCurCooldown > immuneCooldown)
+            {
+                m_immune = false;
+                gameObject.layer = 8;
+                GetComponent<SpriteRenderer>().color = new Color(GetComponent<SpriteRenderer>().color.r, GetComponent<SpriteRenderer>().color.g, GetComponent<SpriteRenderer>().color.b, 1.0f);
+                GameObject.Find("Gun").GetComponent<SpriteRenderer>().color = new Color(GameObject.Find("Gun").GetComponent<SpriteRenderer>().color.r, GameObject.Find("Gun").GetComponent<SpriteRenderer>().color.g, GameObject.Find("Gun").GetComponent<SpriteRenderer>().color.b, 1.0f);
+                immuneCurCooldown = 0;
+            }
+        }
+
+    }
+
+    private void playerInput()
+    {
+        //Input
+        if (Input.GetKey("escape"))
+        {
+            SceneManager.LoadScene("Main_Menu");
+        }
+
+        if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0)
+        {
+            rb2D.velocity = new Vector2(Input.GetAxis("Horizontal") * m_walkingSpeed, rb2D.velocity.y);
+            m_Animator.SetBool("Running", true);
+        }
+        else
+        {
+            rb2D.velocity = new Vector2(0, rb2D.velocity.y);
+            m_Animator.SetBool("Running", false);
+        }
+
+        if (Input.GetButton("Left Shift"))
+        {
+            if (Time.timeScale == 1.0f & !m_BarDepleted)
+            {
+                CurCooldown = 0;
+                m_BarDepleted = true;
+            }
+
+            CurCooldown += Time.deltaTime;
+            if (CurCooldown < Cooldown && GameObject.Find("BarTime").transform.localScale.x > 0)
+            {
+                Time.timeScale = 0.5f;
+                GameObject.Find("BarTime").transform.localScale -= new Vector3(Time.deltaTime / Cooldown, Time.deltaTime / Cooldown, 0);
+
+            }
+            else
+            {
+                Time.timeScale = 1.0f;
+            }
+
+        }
+        else
+        {
+
+            if (Time.timeScale != 1.0f || m_BarDepleted)
+            {
+                Time.timeScale = 1.0f;
+
+            }
+            m_BarDepleted = false;
+
+            GameObject.Find("BarTime").transform.localScale += new Vector3(Time.deltaTime / (Cooldown*2.0f), Time.deltaTime / (Cooldown*2.0f), 0);
+
+        }
     }
 }
