@@ -19,7 +19,7 @@ public class EnemyController : MonoBehaviour {
     public float m_range;
     public float m_speed;
     public float Cooldown;
-    private float CurCooldown = 3;
+    private float CurCooldown;
     private float animationLength;
 
     //----------------------------------------------------------------------------
@@ -50,6 +50,7 @@ public class EnemyController : MonoBehaviour {
         MyRayStart = transform.GetChild(0).gameObject;
         EnemyFirePoint = transform.GetChild(1).gameObject;
         ac = m_Animator.runtimeAnimatorController;
+        CurCooldown = Cooldown;
     }
 	
 	// Update is called once per frame
@@ -116,7 +117,7 @@ public class EnemyController : MonoBehaviour {
 
                 CurCooldown += Time.deltaTime;
 
-                if (CurCooldown > Cooldown && m_health <= 0)
+                if (CurCooldown > Cooldown && m_health > 0)
                 {
                     Instantiate(bulletPrefab, firePointTransform.position, firePointTransform.rotation);
                     GameObject.Find("AudioManager").GetComponent<AudioManangement>().spawnAudio("enemyBullet");

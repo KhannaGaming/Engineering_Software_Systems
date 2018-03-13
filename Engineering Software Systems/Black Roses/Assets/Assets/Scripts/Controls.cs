@@ -14,6 +14,7 @@ public class Controls : MonoBehaviour {
     private bool m_hasJetPack;
     private bool m_hasUsedJetPack;
     private bool m_immune;
+    private bool m_knockedBack;
 
     //----------------------------------------------------------------------------
     //INTS     
@@ -33,7 +34,7 @@ public class Controls : MonoBehaviour {
     //OTHER 
     private Rigidbody2D rb2D;
     private Animator m_Animator;
-
+    private Vector3 previousPosition;
     private Transform elbowTransform;
 
     // Use this for initialization
@@ -45,6 +46,7 @@ public class Controls : MonoBehaviour {
         m_hasUsedJetPack = false;
         m_BarDepleted = false;
         m_immune = false;
+        m_knockedBack = false;
         m_health = 100;
         m_walkingSpeed = 3;
         m_jumpSpeed = 10;
@@ -54,7 +56,7 @@ public class Controls : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+        
         immuneTesting();
 
         playerInput();
@@ -68,14 +70,20 @@ public class Controls : MonoBehaviour {
         if (Input.GetKeyDown("space") && m_jump == false)
         {
             m_jump = true;
-            rb2D.velocity = new Vector2(rb2D.velocity.x,m_jumpSpeed);
+            if (!m_knockedBack)
+            {
+                rb2D.velocity = new Vector2(rb2D.velocity.x, m_jumpSpeed);
+            }
 
         }
         else if (Input.GetKeyDown("space") && m_jump == true)
         {
             if(m_hasJetPack && m_hasUsedJetPack == false)
             {
-                rb2D.velocity = new Vector2(rb2D.velocity.x, m_jumpSpeed*2 );
+                if (!m_knockedBack)
+                {
+                    rb2D.velocity = new Vector2(rb2D.velocity.x, m_jumpSpeed * 2);
+                }
                 m_hasUsedJetPack = true;
             }
         }
@@ -132,7 +140,26 @@ public class Controls : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.transform.tag == "Ground"|| collision.transform.tag == "Destructible")
+        if (collision.transform.tag == "Enemy" && !m_immune)
+        {
+            m_health -= 20;
+            gameObject.layer = 9;
+            m_immune = true;
+        }
+        else if (collision.transform.tag == "EnemyBullet" && !m_immune)
+        {
+            m_health -= 10;
+            gameObject.layer = 9;
+            m_immune = true;
+        }
+        else if (collision.transform.name == "Musket" && !m_immune)
+        {
+            m_health -= 5;
+            gameObject.layer = 9;
+            m_immune = true;
+        }
+
+        if (collision.transform.tag == "Ground"|| collision.transform.tag == "Destructible")
         {
             m_jump = false;
             m_hasUsedJetPack = false;
@@ -150,25 +177,8 @@ public class Controls : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.tag == "Enemy" && !m_immune)
-        {
-                rb2D.AddForce(new Vector2(20,0));
-                m_health -= 20;
-                gameObject.layer = 9;
-                m_immune = true;
-        }
-        else if (collision.transform.tag == "EnemyBullet" && !m_immune)
-        {
-            m_health -= 10;
-            gameObject.layer = 9;
-            m_immune = true;
-        }
-        else if (collision.transform.name == "Musket" && !m_immune)
-        {
-            m_health -= 5;
-            gameObject.layer = 9;
-            m_immune = true;
-        }
+        
+        
 
         if(collision.transform.name == "EndGame")
         {
@@ -247,6 +257,15 @@ public class Controls : MonoBehaviour {
     private void playerInput()
     {
         //Input
+        if (GameObject.Find("Hitler"))
+        {
+            float distance = Mathf.Sqrt(Mathf.Pow((previousPosition.x - transform.position.x),2.0f)+Mathf.Pow((previousPosition.x - transform.position.x),2.0f));
+            if (distance >= 5)
+            {
+                m_knockedBack = false;
+            }
+        } 
+
         if (Input.GetKey("escape"))
         {
             SceneManager.LoadScene("Main_Menu");
@@ -254,12 +273,18 @@ public class Controls : MonoBehaviour {
 
         if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0)
         {
-            rb2D.velocity = new Vector2(Input.GetAxis("Horizontal") * m_walkingSpeed, rb2D.velocity.y);
+            if (!m_knockedBack)
+            {
+                rb2D.velocity = new Vector2(Input.GetAxis("Horizontal") * m_walkingSpeed, rb2D.velocity.y);
+            }
             m_Animator.SetBool("Running", true);
         }
         else
         {
-            rb2D.velocity = new Vector2(0, rb2D.velocity.y);
+            if (!m_knockedBack)
+            {
+                rb2D.velocity = new Vector2(0, rb2D.velocity.y);
+            }
             m_Animator.SetBool("Running", false);
         }
 
@@ -297,5 +322,12 @@ public class Controls : MonoBehaviour {
             GameObject.Find("BarTime").transform.localScale += new Vector3(Time.deltaTime / (Cooldown*2.0f), Time.deltaTime / (Cooldown*2.0f), 0);
 
         }
+    }//End of playerInput(..)
+
+    public void GetKnockedBack(Vector2 knockBackDir)
+    {
+        previousPosition = transform.position;
+        m_knockedBack = true;
+        rb2D.velocity = new Vector2(knockBackDir.x*10, knockBackDir.y*10 );
     }
 }
