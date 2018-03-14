@@ -18,7 +18,7 @@ public class HitBoxScript : MonoBehaviour {
     {
         if (collision.transform.tag == "Bullet")
         {
-            transform.parent.GetComponent<HitlerControls>().DamageCalculator(500);
+            transform.parent.GetComponent<HitlerControls>().DamageCalculator(10);
         }
     }
 }

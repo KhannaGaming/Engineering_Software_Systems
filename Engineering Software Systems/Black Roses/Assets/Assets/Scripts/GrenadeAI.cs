@@ -5,6 +5,7 @@ using UnityEngine;
 public class GrenadeAI : MonoBehaviour {
 
     private Rigidbody2D rb2D;
+    public Transform explosionPrefab;
     private bool m_Thrown;
     private float CurCooldown = 0.0f;
     private float Cooldown = 1.5f;
@@ -36,6 +37,7 @@ public class GrenadeAI : MonoBehaviour {
             CurCooldown += Time.deltaTime;
             if (CurCooldown > Cooldown)
             {
+                Instantiate(explosionPrefab,transform.position,Quaternion.identity,null);
                 Destroy(gameObject);
             }
         }

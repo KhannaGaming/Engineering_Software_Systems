@@ -12,6 +12,10 @@ public class GameOverScript : MonoBehaviour {
     private float Cooldown = 3.0f;
     private float CurCooldown;
 
+    //----------------------------------------------------------------------------
+    //BOOL
+    private bool loadedButtons= false;
+
     //------------------------------------------
     //OTHER
     public Transform canvas;
@@ -37,19 +41,15 @@ public class GameOverScript : MonoBehaviour {
         GameOverText.color = new Color(GameOverText.color.r, GameOverText.color.g, GameOverText.color.b, Mathf.PingPong(Time.time, 1));
 
         CurCooldown += Time.deltaTime;
-        if(CurCooldown > Cooldown)
+        if(CurCooldown > Cooldown && !loadedButtons)
         {
 
             if (canvas.gameObject.activeInHierarchy == false)
             {
                 canvas.gameObject.SetActive(true);
             }
-            else
-            {
-                canvas.gameObject.SetActive(false);
-            }
 
-            CurCooldown = 0;
+            loadedButtons = true;
         }
 
 
@@ -62,5 +62,10 @@ public class GameOverScript : MonoBehaviour {
     public void pressedExit()
     {
         SceneManager.LoadScene("Main_Menu");
+    }
+
+    public void pressedStartAgain()
+    {
+        SceneManager.LoadScene("Level01");
     }
 }

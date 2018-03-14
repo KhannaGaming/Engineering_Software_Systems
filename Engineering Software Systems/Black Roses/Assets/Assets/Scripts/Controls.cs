@@ -326,4 +326,9 @@ public class Controls : MonoBehaviour {
         m_knockedBack = true;
         rb2D.velocity = new Vector2(knockBackDir.x*10, knockBackDir.y*10 );
     }
+
+    public void damageCalculator(int damage)
+    {
+        m_health -= damage;
+    }
 }

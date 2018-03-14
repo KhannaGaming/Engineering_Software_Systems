@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class HitlerControls : MonoBehaviour {
 
@@ -10,6 +11,8 @@ public class HitlerControls : MonoBehaviour {
     private float curChargeCooldown;
     private float grenadeCooldown;
     private float curGrenadeCooldown;
+    private float sceneCurCooldown;
+    private float sceneCooldown;
     private float m_maxHealth;
     private float animationLength;
     private float m_walkingSpeed;
@@ -46,11 +49,13 @@ public class HitlerControls : MonoBehaviour {
     // Use this for initialization
     void Start () {
         m_health = 1000;
-        m_walkingSpeed = 1.5f;
+        m_walkingSpeed = -1.5f;
         grenadeCooldown = 2.0f;
         curGrenadeCooldown = 0.0f;
+        sceneCurCooldown = 0.0f;
+        sceneCooldown = 3.0f;
         m_maxHealth = m_health;
-        m_flippedLeft = false;
+        m_flippedLeft = true;
         m_IsCharging = false;
         m_HasReset = false;
         m_dead = false;
@@ -195,7 +200,15 @@ public class HitlerControls : MonoBehaviour {
                 m_Animator.SetBool("m_dead", true);
                 m_dead = true;
             }
-            Destroy(gameObject, animationLength+2);
+            
+            if(m_dead)
+            {
+                sceneCurCooldown += Time.deltaTime;
+                if(sceneCurCooldown > sceneCooldown)
+                {
+                    SceneManager.LoadScene("Win");
+                }
+            }
         }//End of Death(..)
 
 	}//End of Update(..)
