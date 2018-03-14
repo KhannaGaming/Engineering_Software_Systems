@@ -162,6 +162,7 @@ public class Controls : MonoBehaviour {
         }        
         else if(collision.transform.tag == "Spike")
         {
+            PlayerPrefs.
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
         }
 
