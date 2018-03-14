@@ -97,7 +97,8 @@ public class Controls : MonoBehaviour {
         //If Dead
         if(m_health <= 0)
         {
-            SceneManager.LoadScene("Main_Menu");
+            PlayerPrefs.SetInt("CurrentScene", SceneManager.GetActiveScene().buildIndex);
+            SceneManager.LoadScene("GameOver");
         }
         else
         {
@@ -132,6 +133,18 @@ public class Controls : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.transform.tag == "Boss" && !m_immune)
+        {
+            m_health -= 20;
+            gameObject.layer = 9;
+            m_immune = true;
+        }
+
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+
         if (collision.transform.tag == "Enemy" && !m_immune)
         {
             m_health -= 20;
@@ -151,7 +164,7 @@ public class Controls : MonoBehaviour {
             m_immune = true;
         }
 
-        if (collision.transform.tag == "Ground"|| collision.transform.tag == "Destructible")
+        if (collision.transform.tag == "Ground" || collision.transform.tag == "Destructible")
         {
             m_jump = false;
             m_hasUsedJetPack = false;
@@ -159,21 +172,13 @@ public class Controls : MonoBehaviour {
         else if (collision.transform.name == "KillZone")
         {
             ResetPosition();
-        }        
-        else if(collision.transform.tag == "Spike")
+        }
+        else if (collision.transform.tag == "Spike")
         {
-            PlayerPrefs.
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
         }
 
-    }
-
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        
-        
-
-        if(collision.transform.name == "EndGame")
+        if (collision.transform.name == "EndGame")
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }

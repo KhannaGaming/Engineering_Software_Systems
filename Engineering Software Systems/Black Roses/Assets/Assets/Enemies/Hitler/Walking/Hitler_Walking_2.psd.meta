@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: edb9ce41c98a6cf49b51487fd619fb43
-timeCreated: 1520970828
+timeCreated: 1521043208
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -16,6 +16,7 @@ TextureImporter:
     21300018: Hitler_Walking_2_9
     21300020: Hitler_Walking_2_10
     21300022: Hitler_Walking_2_11
+    21300024: Hitler_Walking_2_12
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -248,6 +249,19 @@ TextureImporter:
         y: 0
         width: 200
         height: 276
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Hitler_Walking_2_12
+      rect:
+        serializedVersion: 2
+        x: 580
+        y: 8
+        width: 361
+        height: 176
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
