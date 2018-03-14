@@ -112,6 +112,7 @@ public class EnemyController : MonoBehaviour {
 
             if (current.ToString() == "Grunt")
             {
+                rb2d.velocity = new Vector2(0, 0);
                 m_Animator.SetBool("m_running", false);
                 m_Animator.SetBool("m_shooting", true);
 

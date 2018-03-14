@@ -41,75 +41,78 @@ public class GunFiring : MonoBehaviour {
         armTransform = GameObject.Find("Arm").transform;
         relativePosToFirepoint = firePointTransform.position - elbowTransform.position;
     }
-	
-	// Update is called once per frame
-	void Update () {
 
-        elbowangles = elbowTransform.eulerAngles;
-        CurCooldown += Time.deltaTime;
-        
-        if (CurCooldown > Cooldown)
+    // Update is called once per frame
+    void Update()
+    {
+        if (!GameObject.Find("Pause"))
         {
-            
-            if (Input.GetMouseButton(0) && curBullets > 0)
-            {
-                Instantiate(bulletPrefab, firePointTransform.position, firePointTransform.rotation);
-                GameObject.Find("AudioManager").GetComponent<AudioManangement>().spawnAudio("bulletSound");
-                CurCooldown = 0;
-                curBullets -= 1;
-                reloadCurCooldown = 0;
-                reloading = false;
-                if (GameObject.Find("AudioManager").GetComponent<AudioManangement>().isPlaying("Reload"))
-                {
-                    GameObject.Find("AudioManager").GetComponent<AudioManangement>().stopAudio("Reload");
-                }
-            }
-            else if((curBullets == 0 || (Input.GetKeyDown("r") && curBullets!=maxBullets)) && !reloading )
-            {
-                GameObject.Find("AudioManager").GetComponent<AudioManangement>().spawnAudio("reload");
-                reloading = true;
-            }
+            elbowangles = elbowTransform.eulerAngles;
+            CurCooldown += Time.deltaTime;
 
-            if(reloading)
+            if (CurCooldown > Cooldown)
             {
-                reloadCurCooldown += Time.deltaTime;
 
-                if (reloadCurCooldown > reloadCooldown)
+                if (Input.GetMouseButton(0) && curBullets > 0)
                 {
-                curBullets = maxBullets;
-                reloadCurCooldown = 0;
+                    Instantiate(bulletPrefab, firePointTransform.position, firePointTransform.rotation);
+                    GameObject.Find("AudioManager").GetComponent<AudioManangement>().spawnAudio("bulletSound");
+                    CurCooldown = 0;
+                    curBullets -= 1;
+                    reloadCurCooldown = 0;
                     reloading = false;
+                    if (GameObject.Find("AudioManager").GetComponent<AudioManangement>().isPlaying("Reload"))
+                    {
+                        GameObject.Find("AudioManager").GetComponent<AudioManangement>().stopAudio("Reload");
+                    }
+                }
+                else if ((curBullets == 0 || (Input.GetKeyDown("r") && curBullets != maxBullets)) && !reloading)
+                {
+                    GameObject.Find("AudioManager").GetComponent<AudioManangement>().spawnAudio("reload");
+                    reloading = true;
+                }
+
+                if (reloading)
+                {
+                    reloadCurCooldown += Time.deltaTime;
+
+                    if (reloadCurCooldown > reloadCooldown)
+                    {
+                        curBullets = maxBullets;
+                        reloadCurCooldown = 0;
+                        reloading = false;
+                    }
                 }
             }
-        }
 
-        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos += new Vector3(0.3f, -0.35f,0);
-        mousePos.z = 0.0f;
-        Debug.DrawLine(elbowTransform.position, mousePos, Color.green);
-        relativePos = mousePos - elbowTransform.position;
-        Debug.DrawLine(elbowTransform.position, firePointTransform.position, Color.red);
+            mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePos += new Vector3(0.3f, -0.35f, 0);
+            mousePos.z = 0.0f;
+            Debug.DrawLine(elbowTransform.position, mousePos, Color.green);
+            relativePos = mousePos - elbowTransform.position;
+            Debug.DrawLine(elbowTransform.position, firePointTransform.position, Color.red);
 
-        var angle = Vector3.Angle(relativePos,relativePosToFirepoint);
+            var angle = Vector3.Angle(relativePos, relativePosToFirepoint);
 
-        if (relativePos.y > 0)
-        {
-            armTransform.eulerAngles = new Vector3(0, 0, angle);
-        }
-        else
-        {
-            armTransform.eulerAngles = new Vector3(0, 0, -angle);
-        }
+            if (relativePos.y > 0)
+            {
+                armTransform.eulerAngles = new Vector3(0, 0, angle);
+            }
+            else
+            {
+                armTransform.eulerAngles = new Vector3(0, 0, -angle);
+            }
 
-        if (relativePos.x<0 )
-        {
-            GetComponentInParent<Controls>().flipPlayerLeft();
-        }
-        else if(relativePos.x > 0)
-        {
-            GetComponentInParent<Controls>().flipPlayerRight();
-        }
+            if (relativePos.x < 0)
+            {
+                GetComponentInParent<Controls>().flipPlayerLeft();
+            }
+            else if (relativePos.x > 0)
+            {
+                GetComponentInParent<Controls>().flipPlayerRight();
+            }
 
-        GameObject.Find("Ammo").GetComponent<Text>().text = curBullets + "/" + maxBullets;
+            GameObject.Find("Ammo").GetComponent<Text>().text = curBullets + "/" + maxBullets;
+        }
     }//End of Update(..)
 }

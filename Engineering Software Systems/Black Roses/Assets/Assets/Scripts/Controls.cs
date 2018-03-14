@@ -88,15 +88,7 @@ public class Controls : MonoBehaviour {
             }
         }
 
-        //Jump animation
-        if (m_jump == false)
-        {
-            m_Animator.SetBool("Jump", false);
-        }
-        else
-        {
-            m_Animator.SetBool("Jump", true);
-        }
+
 
         //Boundaries for the BarTime
         GameObject.Find("BarTime").transform.localScale = new Vector3(Mathf.Clamp(GameObject.Find("BarTime").transform.localScale.x, 0, 1),
@@ -170,7 +162,7 @@ public class Controls : MonoBehaviour {
         }        
         else if(collision.transform.tag == "Spike")
         {
-            SceneManager.LoadScene("Level01");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
         }
 
     }
@@ -256,71 +248,69 @@ public class Controls : MonoBehaviour {
 
     private void playerInput()
     {
-        //Input
-        if (GameObject.Find("Hitler"))
+        if (!GameObject.Find("Pause"))
         {
-            float distance = Mathf.Sqrt(Mathf.Pow((previousPosition.x - transform.position.x),2.0f)+Mathf.Pow((previousPosition.x - transform.position.x),2.0f));
-            if (distance >= 5)
+            //Input
+            if (GameObject.Find("Hitler"))
             {
-                m_knockedBack = false;
-            }
-        } 
-
-        if (Input.GetKey("escape"))
-        {
-            SceneManager.LoadScene("Main_Menu");
-        }
-
-        if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0)
-        {
-            if (!m_knockedBack)
-            {
-                rb2D.velocity = new Vector2(Input.GetAxis("Horizontal") * m_walkingSpeed, rb2D.velocity.y);
-            }
-            m_Animator.SetBool("Running", true);
-        }
-        else
-        {
-            if (!m_knockedBack)
-            {
-                rb2D.velocity = new Vector2(0, rb2D.velocity.y);
-            }
-            m_Animator.SetBool("Running", false);
-        }
-
-        if (Input.GetButton("Left Shift"))
-        {
-            if (Time.timeScale == 1.0f & !m_BarDepleted)
-            {
-                CurCooldown = 0;
-                m_BarDepleted = true;
+                float distance = Mathf.Sqrt(Mathf.Pow((previousPosition.x - transform.position.x), 2.0f) + Mathf.Pow((previousPosition.x - transform.position.x), 2.0f));
+                if (distance >= 5)
+                {
+                    m_knockedBack = false;
+                }
             }
 
-            CurCooldown += Time.deltaTime;
-            if (CurCooldown < Cooldown && GameObject.Find("BarTime").transform.localScale.x > 0)
+            if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0)
             {
-                Time.timeScale = 0.5f;
-                GameObject.Find("BarTime").transform.localScale -= new Vector3(Time.deltaTime / Cooldown, Time.deltaTime / Cooldown, 0);
+                if (!m_knockedBack)
+                {
+                    rb2D.velocity = new Vector2(Input.GetAxis("Horizontal") * m_walkingSpeed, rb2D.velocity.y);
+                }
+                m_Animator.SetBool("Running", true);
+            }
+            else
+            {
+                if (!m_knockedBack)
+                {
+                    rb2D.velocity = new Vector2(0, rb2D.velocity.y);
+                }
+                m_Animator.SetBool("Running", false);
+            }
+
+            if (Input.GetButton("Left Shift"))
+            {
+                if (Time.timeScale == 1.0f & !m_BarDepleted)
+                {
+                    CurCooldown = 0;
+                    m_BarDepleted = true;
+                }
+
+                CurCooldown += Time.deltaTime;
+                if (CurCooldown < Cooldown && GameObject.Find("BarTime").transform.localScale.x > 0)
+                {
+                    Time.timeScale = 0.5f;
+                    GameObject.Find("BarTime").transform.localScale -= new Vector3(Time.deltaTime / Cooldown, Time.deltaTime / Cooldown, 0);
+
+                }
+                else
+                {
+                    Time.timeScale = 1.0f;
+                }
 
             }
             else
             {
-                Time.timeScale = 1.0f;
+
+                if (Time.timeScale != 1.0f || m_BarDepleted)
+                {
+                    Time.timeScale = 1.0f;
+
+                }
+                m_BarDepleted = false;
+
+                GameObject.Find("BarTime").transform.localScale += new Vector3(Time.deltaTime / (Cooldown * 2.0f), Time.deltaTime / (Cooldown * 2.0f), 0);
+
             }
-
-        }
-        else
-        {
-
-            if (Time.timeScale != 1.0f || m_BarDepleted)
-            {
-                Time.timeScale = 1.0f;
-
-            }
-            m_BarDepleted = false;
-
-            GameObject.Find("BarTime").transform.localScale += new Vector3(Time.deltaTime / (Cooldown*2.0f), Time.deltaTime / (Cooldown*2.0f), 0);
-
         }
     }//End of playerInput(..)
 
