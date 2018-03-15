@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,6 +19,10 @@ public class HitlerControls : MonoBehaviour {
     private float m_walkingSpeed;
     private float turningAmount = 140.0f;
     private float grenadeTurningAmount = 220.0f;
+    public float bulletCooldown;
+    private float CurBulletCooldown;
+    public float m_range;
+
     // Maximum turn rate in degrees per second.
     public float turningRate = 50f;
     //----------------------------------------------------
@@ -33,6 +38,7 @@ public class HitlerControls : MonoBehaviour {
     private bool m_HasThrownGrenade;
     private bool m_HasGrenade;
     private bool m_hasResetGrenade;
+    public bool m_spotted;
 
     //----------------------------------------------------------------------------
     //Other
@@ -43,8 +49,11 @@ public class HitlerControls : MonoBehaviour {
     private GameObject playerTransform;
     public Sprite[] Sprites;
     public Transform Arm;
+    public Transform Arm2;
     public Transform grenadePrefab;
-    
+    public Transform bulletPrefab;
+    public GameObject MyRayStart;
+    public GameObject EnemyFirePoint;
 
     // Use this for initialization
     void Start () {
@@ -54,6 +63,7 @@ public class HitlerControls : MonoBehaviour {
         curGrenadeCooldown = 0.0f;
         sceneCurCooldown = 0.0f;
         sceneCooldown = 3.0f;
+        CurBulletCooldown = 0.0f;
         m_maxHealth = m_health;
         m_flippedLeft = true;
         m_IsCharging = false;
@@ -113,10 +123,13 @@ public class HitlerControls : MonoBehaviour {
 
         if (m_health <= m_maxHealth / 2 && m_health >0)
         {
+            
             do
             {
                 Arm.GetComponent<SpriteRenderer>().sprite = Sprites[1];
-                transform.GetChild(0).GetComponent<Rotate>().resetRotation();
+                Arm2.GetComponent<SpriteRenderer>().sprite = Sprites[2];
+                transform.GetChild(0).GetComponent<Rotate>().resetPosition(0);
+                transform.GetChild(1).GetComponent<Rotate>().resetRotation();
                 m_HasReset = true;
                 m_Animator.SetBool("m_walking", true);
             } while (!m_HasReset);
@@ -133,7 +146,7 @@ public class HitlerControls : MonoBehaviour {
                     transform.GetChild(0).GetComponent<Rotate>().rotate(grenadeTurningAmount, turningRate);
                 }
             }
-            if (relativePosition.x < 10 && relativePosition.x > -10)
+            if (relativePosition.x < 15 && relativePosition.x > -15)
             {
                 m_Animator.SetBool("m_walking", false);
                 rb2D.velocity = Vector3.zero;
@@ -173,10 +186,19 @@ public class HitlerControls : MonoBehaviour {
 
 
         //Gun
-            
+            Raycasting();
+            if (m_spotted)
+            {
+                CurBulletCooldown += Time.deltaTime;
+                if (CurBulletCooldown > bulletCooldown && m_health > 0)
+                {
+                    Instantiate(bulletPrefab, EnemyFirePoint.transform.position, EnemyFirePoint.transform.rotation);
+                    GameObject.Find("AudioManager").GetComponent<AudioManangement>().spawnAudio("enemyBullet");
+                    CurBulletCooldown = 0;
+                }
+            }
 
-
-        }//End of Phase 2(..)
+            }//End of Phase 2(..)
 
 
         if(m_health <= 0.0f)
@@ -198,6 +220,7 @@ public class HitlerControls : MonoBehaviour {
                 transform.position = new Vector3(transform.position.x, transform.position.y - 1, 0);
                 rb2D.velocity = new Vector3(0, 0, 0);
                 m_Animator.SetBool("m_dead", true);
+                GameObject.Find("Timer").GetComponent<PlayerTimer>().setHighScore();
                 m_dead = true;
             }
             
@@ -213,11 +236,13 @@ public class HitlerControls : MonoBehaviour {
 
 	}//End of Update(..)
 
+    private void Raycasting()
+    {
+        Vector3 EndPosition = MyRayStart.transform.position + new Vector3(m_range, 0, 0) * transform.localScale.x;
+        Debug.DrawLine(MyRayStart.transform.position, EndPosition, Color.green);
+        m_spotted = Physics2D.Linecast(MyRayStart.transform.position, EndPosition, 1 << LayerMask.NameToLayer("Player"));
 
-    
-
-       
-   
+    }
 
     private void OnTriggerStay2D(Collider2D collision)
     {

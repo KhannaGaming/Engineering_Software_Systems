@@ -13,9 +13,14 @@ public class Rotate : MonoBehaviour {
         transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.identity, Time.deltaTime * length * 15);
     }
 
+    public void resetPosition(int childNumber)
+    {
+        transform.GetChild(childNumber).localPosition = new Vector3(-0.23f, -0.3f, 0);
+    }
+
     public void resetRotation()
     {
-        transform.GetChild(0).localPosition = new Vector3(-0.23f, -0.3f, 0);
+        transform.rotation = Quaternion.identity;
     }
 
     public bool readyForGrenade(float amount)
@@ -25,5 +30,13 @@ public class Rotate : MonoBehaviour {
             return true;
         }
         return false;
+    }
+
+    public void rotateLever()
+    {
+        if (transform.rotation == Quaternion.Euler(0, 0, -135.0f)) 
+        {
+            transform.rotation = Quaternion.Euler(0, 0, -45.0f);
+        }
     }
 }

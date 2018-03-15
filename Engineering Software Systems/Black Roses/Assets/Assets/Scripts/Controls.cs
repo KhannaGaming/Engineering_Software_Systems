@@ -15,12 +15,14 @@ public class Controls : MonoBehaviour {
     private bool m_hasUsedJetPack;
     private bool m_immune;
     private bool m_knockedBack;
+    internal bool m_HasFuel;
+    internal bool m_ElevatorOpen;
 
     //----------------------------------------------------------------------------
     //INTS     
     private int m_walkingSpeed;
     private int m_jumpSpeed;
-    private int m_health;
+    internal int m_health;
 
     //----------------------------------------------------------------------------
     //FLOATS   
@@ -47,11 +49,18 @@ public class Controls : MonoBehaviour {
         m_BarDepleted = false;
         m_immune = false;
         m_knockedBack = false;
+        m_HasFuel = false;
+        m_ElevatorOpen = false;
         m_health = 100;
-        m_walkingSpeed = 3;
+        m_walkingSpeed = 4;
         m_jumpSpeed = 10;
         rb2D = GetComponent<Rigidbody2D>();
         elbowTransform = GameObject.Find("Elbow").transform;
+
+        if(SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            GameObject.Find("Timer").GetComponent<PlayerTimer>().resetTime();
+        }
     }
 	
 	// Update is called once per frame
@@ -98,6 +107,7 @@ public class Controls : MonoBehaviour {
         if(m_health <= 0)
         {
             PlayerPrefs.SetInt("CurrentScene", SceneManager.GetActiveScene().buildIndex);
+            GameObject.Find("Timer").GetComponent<PlayerTimer>().resetTime();
             SceneManager.LoadScene("GameOver");
         }
         else
@@ -151,6 +161,11 @@ public class Controls : MonoBehaviour {
             gameObject.layer = 9;
             m_immune = true;
         }
+        else if(collision.transform.tag == "Explosion")
+        {
+            gameObject.layer = 9;
+            m_immune = true;
+        }
         else if (collision.transform.tag == "EnemyBullet" && !m_immune)
         {
             m_health -= 10;
@@ -175,11 +190,12 @@ public class Controls : MonoBehaviour {
         }
         else if (collision.transform.tag == "Spike")
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
+            m_health -= 30;
         }
 
-        if (collision.transform.name == "EndGame")
+        if (collision.transform.name == "EndGame" && (m_HasFuel||m_ElevatorOpen))
         {
+            GameObject.Find("Timer").GetComponent<PlayerTimer>().saveTime();
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
         else if (collision.transform.name == "MainMenu")
@@ -228,6 +244,10 @@ public class Controls : MonoBehaviour {
             }
             GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, transparencyValue);
             GameObject.Find("Gun").GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, transparencyValue);
+            if (GameObject.Find("Back").transform.childCount >0)
+            {
+                GameObject.Find("Jetpack").GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, transparencyValue);
+            }
             m_immune = true;
         }
         else
@@ -246,6 +266,7 @@ public class Controls : MonoBehaviour {
                 gameObject.layer = 8;
                 GetComponent<SpriteRenderer>().color = new Color(GetComponent<SpriteRenderer>().color.r, GetComponent<SpriteRenderer>().color.g, GetComponent<SpriteRenderer>().color.b, 1.0f);
                 GameObject.Find("Gun").GetComponent<SpriteRenderer>().color = new Color(GameObject.Find("Gun").GetComponent<SpriteRenderer>().color.r, GameObject.Find("Gun").GetComponent<SpriteRenderer>().color.g, GameObject.Find("Gun").GetComponent<SpriteRenderer>().color.b, 1.0f);
+                GameObject.Find("Jetpack").GetComponent<SpriteRenderer>().color = new Color(GameObject.Find("Jetpack").GetComponent<SpriteRenderer>().color.r, GameObject.Find("Jetpack").GetComponent<SpriteRenderer>().color.g, GameObject.Find("Jetpack").GetComponent<SpriteRenderer>().color.b, 1.0f);
                 immuneCurCooldown = 0;
             }
         }
@@ -324,6 +345,10 @@ public class Controls : MonoBehaviour {
     {
         previousPosition = transform.position;
         m_knockedBack = true;
+        if(knockBackDir.x < 0.5f && knockBackDir.x > -0.5f)
+        {
+            knockBackDir.x = -2.0f;
+        }
         rb2D.velocity = new Vector2(knockBackDir.x*10, knockBackDir.y*10 );
     }
 

@@ -29,7 +29,6 @@ public class EnemyController : MonoBehaviour {
     //----------------------------------------------------------------------------
     //OTHER 
     public Transform bulletPrefab;
-    public Transform firePointTransform;
     private Rigidbody2D rb2d;
     private GameObject MyRayStart;
     private Animator m_Animator;
@@ -85,6 +84,14 @@ public class EnemyController : MonoBehaviour {
                     m_Animator.SetBool("m_running", true);
                     m_Animator.SetBool("m_shooting", false);
                 }
+                else if (current.ToString() == "Charger")
+                {
+                    m_Animator.SetBool("m_charging", false);
+                }
+                else if (current.ToString() == "Bruiser")
+                {
+                    //@ToDo
+                }
 
                 EnemyFirePoint.transform.eulerAngles = new Vector3(0, 0, 180);
 
@@ -103,6 +110,11 @@ public class EnemyController : MonoBehaviour {
                 {
                     m_Animator.SetBool("m_charging", false);
                 }
+                else if (current.ToString() == "Bruiser")
+                {
+                    //@ToDo
+                }
+
                 EnemyFirePoint.transform.eulerAngles = new Vector3(0, 0, 0);
             }
         }
@@ -120,7 +132,7 @@ public class EnemyController : MonoBehaviour {
 
                 if (CurCooldown > Cooldown && m_health > 0)
                 {
-                    Instantiate(bulletPrefab, firePointTransform.position, firePointTransform.rotation);
+                    Instantiate(bulletPrefab, EnemyFirePoint.transform.position, EnemyFirePoint.transform.rotation);
                     GameObject.Find("AudioManager").GetComponent<AudioManangement>().spawnAudio("enemyBullet");
                     CurCooldown = 0;
                 }
@@ -140,8 +152,10 @@ public class EnemyController : MonoBehaviour {
                     rb2d.velocity = new Vector2(tempSpeed, 0);
                     EnemyFirePoint.transform.eulerAngles = new Vector3(0, 0, 0);
                 }
-
-
+            }
+            else if (current.ToString() == "Bruiser")
+            {
+                //@ToDo
             }
         }
     }
