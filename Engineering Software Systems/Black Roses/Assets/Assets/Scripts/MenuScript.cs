@@ -9,6 +9,7 @@ public class MenuScript : MonoBehaviour
     //----------------------------------------------------------------------------
     //BOOLS 
     private bool movingToSettings = false;
+    private bool movingToHighscores = false;
     private bool movingToMenu = false;
 
 
@@ -51,15 +52,24 @@ public class MenuScript : MonoBehaviour
             GameObject.Find("Moveable").GetComponent<Transform>().localPosition -= new Vector3(cameraSpeed, 0, 0);
 
         }
+        else if(movingToHighscores == true && GameObject.Find("Moveable").GetComponent<RectTransform>().localPosition.x < 800)
+        {
+            GameObject.Find("Moveable").GetComponent<Transform>().localPosition += new Vector3(cameraSpeed, 0, 0);
+        }
         else
         {
             movingToSettings = false;
+            movingToHighscores = false;
         }
 
         if (movingToMenu == true && GameObject.Find("Moveable").GetComponent<RectTransform>().localPosition.x < 0)
         {
             GameObject.Find("Moveable").GetComponent<Transform>().localPosition += new Vector3(cameraSpeed, 0, 0);
 
+        }
+        else if (movingToMenu == true && GameObject.Find("Moveable").GetComponent<RectTransform>().localPosition.x > 0)
+        {
+            GameObject.Find("Moveable").GetComponent<Transform>().localPosition -= new Vector3(cameraSpeed, 0, 0);
         }
         else
         {
@@ -115,6 +125,12 @@ public class MenuScript : MonoBehaviour
     {
         GameObject.Find("AudioManager").GetComponent<AudioManangement>().spawnAudio("click");
         movingToMenu = true;
+    }
+
+    public void pressedHighscores()
+    {
+        GameObject.Find("AudioManager").GetComponent<AudioManangement>().spawnAudio("click");
+        movingToHighscores = true;
     }
 
     // The coroutine runs on its own at the same time as Update() and takes an integer indicating which scene to load.

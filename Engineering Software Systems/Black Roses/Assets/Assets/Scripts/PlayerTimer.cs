@@ -58,4 +58,9 @@ public class PlayerTimer : MonoBehaviour
         float highscore =  (PlayerPrefs.GetInt("HighscoreMinutes", 0)*60)+ PlayerPrefs.GetFloat("HighscoreSeconds", 0);
         return highscore;
     }
+    public void resetHighscore()
+    {
+        PlayerPrefs.SetFloat("HighscoreSeconds", 0.0f);
+        PlayerPrefs.SetInt("HighscoreMinutes", 0);
+    }
 }
