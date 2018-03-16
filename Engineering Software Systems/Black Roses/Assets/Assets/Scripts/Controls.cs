@@ -107,7 +107,7 @@ public class Controls : MonoBehaviour {
         if(m_health <= 0)
         {
             PlayerPrefs.SetInt("CurrentScene", SceneManager.GetActiveScene().buildIndex);
-            GameObject.Find("Timer").GetComponent<PlayerTimer>().resetTime();
+            GameObject.Find("Timer").GetComponent<PlayerTimer>().saveTime();
             SceneManager.LoadScene("GameOver");
         }
         else

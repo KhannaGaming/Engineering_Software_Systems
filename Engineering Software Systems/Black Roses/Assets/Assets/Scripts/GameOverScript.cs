@@ -61,6 +61,7 @@ public class GameOverScript : MonoBehaviour {
     }
     public void pressedExit()
     {
+        GameObject.Find("Timer").GetComponent<PlayerTimer>().resetTime();
         SceneManager.LoadScene("Main_Menu");
     }
 

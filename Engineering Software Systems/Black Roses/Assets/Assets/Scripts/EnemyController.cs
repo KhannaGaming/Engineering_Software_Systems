@@ -45,9 +45,10 @@ public class EnemyController : MonoBehaviour {
      
         rb2d = GetComponent<Rigidbody2D>();
         m_Animator = GetComponent<Animator>();
-        m_Animator.SetBool("m_running", true);
+        m_Animator.SetBool("m_running", true);        
         MyRayStart = transform.GetChild(0).gameObject;
         EnemyFirePoint = transform.GetChild(1).gameObject;
+       
         ac = m_Animator.runtimeAnimatorController;
         CurCooldown = Cooldown;
     }
@@ -90,7 +91,8 @@ public class EnemyController : MonoBehaviour {
                 }
                 else if (current.ToString() == "Bruiser")
                 {
-                    //@ToDo
+                    m_Animator.SetBool("m_running", true);
+                    m_Animator.SetBool("m_shooting", false);
                 }
 
                 EnemyFirePoint.transform.eulerAngles = new Vector3(0, 0, 180);
@@ -112,7 +114,8 @@ public class EnemyController : MonoBehaviour {
                 }
                 else if (current.ToString() == "Bruiser")
                 {
-                    //@ToDo
+                    m_Animator.SetBool("m_running", true);
+                    m_Animator.SetBool("m_shooting", false);
                 }
 
                 EnemyFirePoint.transform.eulerAngles = new Vector3(0, 0, 0);
@@ -155,7 +158,18 @@ public class EnemyController : MonoBehaviour {
             }
             else if (current.ToString() == "Bruiser")
             {
-                //@ToDo
+                rb2d.velocity = new Vector2(0, 0);
+                m_Animator.SetBool("m_running", false);
+                m_Animator.SetBool("m_shooting", true);
+
+                CurCooldown += Time.deltaTime;
+
+                if (CurCooldown > Cooldown && m_health > 0)
+                {
+                    Instantiate(bulletPrefab, EnemyFirePoint.transform.position, EnemyFirePoint.transform.rotation);
+                    GameObject.Find("AudioManager").GetComponent<AudioManangement>().spawnAudio("enemyBullet");
+                    CurCooldown = 0;
+                }
             }
         }
     }
