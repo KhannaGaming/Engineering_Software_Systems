@@ -244,9 +244,9 @@ public class Controls : MonoBehaviour {
             }
             GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, transparencyValue);
             GameObject.Find("Gun").GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, transparencyValue);
-            if (GameObject.Find("Back").transform.childCount >0)
+            if (GameObject.Find("Back").transform.childCount > 0)
             {
-                GameObject.Find("Jetpack").GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, transparencyValue);
+                GameObject.FindGameObjectWithTag("JetPack").GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, transparencyValue);
             }
             m_immune = true;
         }
@@ -266,7 +266,7 @@ public class Controls : MonoBehaviour {
                 gameObject.layer = 8;
                 GetComponent<SpriteRenderer>().color = new Color(GetComponent<SpriteRenderer>().color.r, GetComponent<SpriteRenderer>().color.g, GetComponent<SpriteRenderer>().color.b, 1.0f);
                 GameObject.Find("Gun").GetComponent<SpriteRenderer>().color = new Color(GameObject.Find("Gun").GetComponent<SpriteRenderer>().color.r, GameObject.Find("Gun").GetComponent<SpriteRenderer>().color.g, GameObject.Find("Gun").GetComponent<SpriteRenderer>().color.b, 1.0f);
-                GameObject.Find("Jetpack").GetComponent<SpriteRenderer>().color = new Color(GameObject.Find("Jetpack").GetComponent<SpriteRenderer>().color.r, GameObject.Find("Jetpack").GetComponent<SpriteRenderer>().color.g, GameObject.Find("Jetpack").GetComponent<SpriteRenderer>().color.b, 1.0f);
+                GameObject.FindGameObjectWithTag("JetPack").GetComponent<SpriteRenderer>().color = new Color(GameObject.FindGameObjectWithTag("JetPack").GetComponent<SpriteRenderer>().color.r, GameObject.FindGameObjectWithTag("JetPack").GetComponent<SpriteRenderer>().color.g, GameObject.FindGameObjectWithTag("JetPack").GetComponent<SpriteRenderer>().color.b, 1.0f);
                 immuneCurCooldown = 0;
             }
         }
