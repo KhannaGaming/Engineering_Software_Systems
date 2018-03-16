@@ -6,7 +6,7 @@ public class EnemyBulletAI : MonoBehaviour
 {
     //----------------------------------------------------------------------------
     //BOOLS 
-    float m_bulletSpeed = 10f;
+    private float m_bulletSpeed = 10f;
 
     //----------------------------------------------------------------------------
     //OTHER 

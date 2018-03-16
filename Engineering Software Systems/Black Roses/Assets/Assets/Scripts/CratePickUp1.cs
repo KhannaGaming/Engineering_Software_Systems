@@ -7,7 +7,7 @@ public class CratePickUp1 : MonoBehaviour {
 
     //----------------------------------------------------------------------------
     //INTS 
-    private int m_health;
+    internal int m_health;
 
     // Use this for initialization
     void Start()
@@ -20,7 +20,7 @@ public class CratePickUp1 : MonoBehaviour {
     {
         if (m_health <= 0)
         {
-            GameObject.Find("AudioManager").GetComponent<AudioManangement>().spawnAudio("boxBreak");
+           GameObject.Find("AudioManager").GetComponent<AudioManangement>().spawnAudio("boxBreak");
             Destroy(gameObject);
         }
     }

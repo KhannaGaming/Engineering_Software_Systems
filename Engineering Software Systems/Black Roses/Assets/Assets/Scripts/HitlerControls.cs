@@ -58,7 +58,7 @@ public class HitlerControls : MonoBehaviour {
     // Use this for initialization
     void Start () {
         m_health = 1000;
-        m_walkingSpeed = -1.5f;
+        m_walkingSpeed = -1.8f;
         grenadeCooldown = 2.0f;
         curGrenadeCooldown = 0.0f;
         sceneCurCooldown = 0.0f;
@@ -294,4 +294,8 @@ public class HitlerControls : MonoBehaviour {
         return m_health;
     }
     
+    public int getHealth()
+    {
+        return m_health;
+    }
 }
