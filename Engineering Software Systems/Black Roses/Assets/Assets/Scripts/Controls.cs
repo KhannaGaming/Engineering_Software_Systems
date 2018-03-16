@@ -193,7 +193,7 @@ public class Controls : MonoBehaviour {
             m_health -= 30;
         }
 
-        if (collision.transform.name == "EndGame" && (m_HasFuel||m_ElevatorOpen))
+        if (collision.transform.tag == "EndGame" && (m_HasFuel||m_ElevatorOpen))
         {
             GameObject.Find("Timer").GetComponent<PlayerTimer>().saveTime();
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
