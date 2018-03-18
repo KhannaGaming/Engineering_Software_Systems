@@ -21,7 +21,7 @@ public class MenuScript : MonoBehaviour
     //----------------------------------------------------------------------------
     //FLOATS 
     private float duration = 3.0f;
-
+    
     //----------------------------------------------------------------------------
     //OTHER 
     public Text loadingText;
@@ -86,6 +86,7 @@ public class MenuScript : MonoBehaviour
         // If the new scene has started loading...
         if (loadScene == true)
         {
+            Debug.Log(Time.deltaTime);
             // ...then pulse the transparency of the loading text to let the player know that the computer is still working.
             loadingText.color = new Color(loadingText.color.r, loadingText.color.g, loadingText.color.b, Mathf.PingPong(Time.time, 1));
         }
@@ -104,6 +105,7 @@ public class MenuScript : MonoBehaviour
             // ...change the instruction text to read "Loading..."
             loadingText.text = "Loading...";
 
+            StopAllCoroutines();
             // ...and start a coroutine that will load the desired scene.
             StartCoroutine(LoadNewScene());
         }
@@ -143,13 +145,12 @@ public class MenuScript : MonoBehaviour
 
         // Start an asynchronous operation to load the scene that was passed to the LoadNewScene coroutine.
         AsyncOperation async = SceneManager.LoadSceneAsync(scene);
-
         // While the asynchronous operation to load the new scene is not yet complete, continue waiting until it's done.
         while (!async.isDone)
         {
             yield return null;
         }
-
+        StopAllCoroutines();
     }
 }
 

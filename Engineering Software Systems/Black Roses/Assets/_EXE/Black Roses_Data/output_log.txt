@@ -1,0 +1,50 @@
+Initialize engine version: 5.6.1f1 (2860b30f0b54)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: Radeon (TM) RX 480 Graphics (ID=0x67df)
+    Vendor:   ATI
+    VRAM:     3072 MB
+    Driver:   23.20.15007.1005
+Begin MonoManager ReloadAssembly
+Platform assembly: D:\GitHub\Engineering_Software_Systems\Engineering Software Systems\Black Roses\Assets\_EXE\Black Roses_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading D:\GitHub\Engineering_Software_Systems\Engineering Software Systems\Black Roses\Assets\_EXE\Black Roses_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: D:\GitHub\Engineering_Software_Systems\Engineering Software Systems\Black Roses\Assets\_EXE\Black Roses_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading D:\GitHub\Engineering_Software_Systems\Engineering Software Systems\Black Roses\Assets\_EXE\Black Roses_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: D:\GitHub\Engineering_Software_Systems\Engineering Software Systems\Black Roses\Assets\_EXE\Black Roses_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading D:\GitHub\Engineering_Software_Systems\Engineering Software Systems\Black Roses\Assets\_EXE\Black Roses_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: D:\GitHub\Engineering_Software_Systems\Engineering Software Systems\Black Roses\Assets\_EXE\Black Roses_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading D:\GitHub\Engineering_Software_Systems\Engineering Software Systems\Black Roses\Assets\_EXE\Black Roses_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: D:\GitHub\Engineering_Software_Systems\Engineering Software Systems\Black Roses\Assets\_EXE\Black Roses_Data\Managed\UnityEngine.TestRunner.dll (this message is harmless)
+Loading D:\GitHub\Engineering_Software_Systems\Engineering Software Systems\Black Roses\Assets\_EXE\Black Roses_Data\Managed\UnityEngine.TestRunner.dll into Unity Child Domain
+Platform assembly: D:\GitHub\Engineering_Software_Systems\Engineering Software Systems\Black Roses\Assets\_EXE\Black Roses_Data\Managed\nunit.framework.dll (this message is harmless)
+Loading D:\GitHub\Engineering_Software_Systems\Engineering Software Systems\Black Roses\Assets\_EXE\Black Roses_Data\Managed\nunit.framework.dll into Unity Child Domain
+- Completed reload, in  0.020 seconds
+Platform assembly: D:\GitHub\Engineering_Software_Systems\Engineering Software Systems\Black Roses\Assets\_EXE\Black Roses_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: D:\GitHub\Engineering_Software_Systems\Engineering Software Systems\Black Roses\Assets\_EXE\Black Roses_Data\Managed\System.dll (this message is harmless)
+desktop: 3840x2160 60Hz; virtual: 5520x2160 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.748583 ms
+Query Request: http://blackroses.azurewebsites.net/tables/Highscores?$orderby=scoreString+asc&$top=50&$select=id%2cusername%2cscore&$inlinecount=allpages Paginated Query:?$orderby=scoreString+asc&$top=50&$select=id%2cusername%2cscore
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+OnReadNestedResultsCompleted: http://blackroses.azurewebsites.net/tables/Highscores?$orderby=scoreString+asc&$top=50&$select=id%2cusername%2cscore&$inlinecount=allpages data: {"results":[{"id":"6399c63e-8b33-4bc7-93d5-d9f3a90c9662","username":"Sean","score":"5m:7s"},{"id":"13291eba-4d73-4d5a-bcdf-51a4b9f0b77f","username":"Shef","score":"6m:8s"},{"id":"18a6e85c-c280-4b9a-a954-634e5566ac9f","username":"darius","score":"9m:55s"},{"id":"c641380a-32a6-4bb5-a29c-b021dfb4c357","username":"Flaviu","score":"9m:57s"},{"id":"2431601e-d7d1-44d3-a98b-10c668d6c469","username":"Patri","score":"32m:12s"}],"count":5}
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Read items count: 5/5
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Refresh Table Data
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Setting up 4 worker threads for Enlighten.
+  Thread -> id: 132c -> priority: 1 
+  Thread -> id: 4114 -> priority: 1 
+  Thread -> id: 1bf8 -> priority: 1 
+  Thread -> id: 15e4 -> priority: 1 
